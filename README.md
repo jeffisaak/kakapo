@@ -1,8 +1,12 @@
-# kakapo
+# Kakapo
 
-Kakapo monorepo. Contains [kakapo-util](kakapo-util), [kakapo-api](kakapo-api), [kakapo-crypto](kakapo-crypto), and [kakapo-client](kakapo-client) subprojects.
+This is the Kakapo monorepo. Contains [kakapo-util](kakapo-util), [kakapo-api](kakapo-api), [kakapo-crypto](kakapo-crypto), and [kakapo-client](kakapo-client) subprojects.
 
 Looking for [kakapo-android](https://github.com/jeffisaak/kakapo-android)?
+
+## What is Kakapo?
+
+Kakapo is a privacy-centric social network. Kakapo's API is open, so anybody can create Kakapo clients.
 
 ## Adding to your project
 
