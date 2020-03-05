@@ -1,6 +1,8 @@
 # kakapo
 
-Experimental Kakapo monorepo
+Experimental Kakapo monorepo. Contains kakapo-util, kakapo-api, kakapo-crypto, and kakapo-client subprojects.
+
+Looking for [kakapo-android](https://github.com/jeffisaak/kakapo-android)?
 
 ## API Documentation
 
