@@ -1,0 +1,3 @@
+rootProject.name = 'kakapo'
+include 'kakapo-api', 'kakapo-util', 'kakapo-crypto', 'kakapo-client'
+
