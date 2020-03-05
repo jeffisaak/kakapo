@@ -84,7 +84,7 @@ Response Body:
 
 Once a GUID has been received it can be paired with a client-created public key and sent back to the server to finish account creation.
 
-Note that when authenticating users, the Kakapo server attempts to look up the user's public key using the user id "guid <guid>". For example, if my GUID were f8d2a8c5-ffec-426a-a587-301b86af769e, the user id used to look up the key in the public key rings data is "f8d2a8c5-ffec-426a-a587-301b86af769e &lt;f8d2a8c5-ffec-426a-a587-301b86af769e&gt;".
+Note that when authenticating users, the Kakapo server attempts to look up the user's public key using the user id "guid &lt;guid&gt;". For example, if my GUID were f8d2a8c5-ffec-426a-a587-301b86af769e, the user id used to look up the key in the public key rings data is "f8d2a8c5-ffec-426a-a587-301b86af769e &lt;f8d2a8c5-ffec-426a-a587-301b86af769e&gt;".
 
 **PUT /api/v1/account/create**
 
