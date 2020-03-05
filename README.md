@@ -1,6 +1,6 @@
 # kakapo
 
-This is the Kakapo monorepo that contains everything but the Android client.
+Experimental Kakapo monorepo
 
 ## API Documentation
 
