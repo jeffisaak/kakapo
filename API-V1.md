@@ -4,6 +4,7 @@
 
 * [Acronyms and Initialisms](#acronyms-and-initialisms)
 * [General Information](#general-information)
+* [Rate Limiting](#rate-limiting)
 * [User-related endpoints](#user-related-endpoints)
 * [Server-related endpoints](#server-related-endpoints)
 * [Item-related endpoints](#item-related-endpoints)
