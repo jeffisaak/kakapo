@@ -53,10 +53,14 @@ public class PublicKeyEncryptionService {
     }
 
     public byte[] sign(Key keyExchangePublicKey, Key signingSecretKey) throws SignMessageException {
-        byte[] signedKey = new byte[keyExchangePublicKey.getAsBytes().length + Sign.BYTES];
+        return sign(keyExchangePublicKey.getAsBytes(), signingSecretKey);
+    }
+
+    public byte[] sign(byte[] message, Key signingSecretKey) throws SignMessageException {
+        byte[] signedKey = new byte[message.length + Sign.BYTES];
         boolean signSuccessful = _lazySodium.cryptoSign(signedKey,
-                keyExchangePublicKey.getAsBytes(),
-                keyExchangePublicKey.getAsBytes().length,
+                message,
+                message.length,
                 signingSecretKey.getAsBytes());
         if (!signSuccessful) {
             throw new SignMessageException("Sign failed");
