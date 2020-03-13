@@ -4,11 +4,15 @@ import com.goterl.lazycode.lazysodium.LazySodiumJava;
 import com.goterl.lazycode.lazysodium.SodiumJava;
 import com.goterl.lazycode.lazysodium.exceptions.SodiumException;
 import com.goterl.lazycode.lazysodium.interfaces.AEAD;
+import com.goterl.lazycode.lazysodium.interfaces.KeyDerivation;
 import com.goterl.lazycode.lazysodium.interfaces.Sign;
 import com.goterl.lazycode.lazysodium.utils.Key;
 import com.goterl.lazycode.lazysodium.utils.KeyPair;
 import com.goterl.lazycode.lazysodium.utils.SessionPair;
 import kakapo.crypto.exception.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class PublicKeyEncryptionService {
 
@@ -50,6 +54,22 @@ public class PublicKeyEncryptionService {
         } catch (SodiumException e) {
             throw new KeyGenerationException(e);
         }
+    }
+
+    public Collection<Key> deriveSubkeys(Key masterKey, int count) throws KeyGenerationException {
+        Collection<Key> result = new ArrayList<>();
+        for (int ii = 0; ii < count; ii++) {
+            try {
+                Key derivedKey = _lazySodium.cryptoKdfDeriveFromKey(KeyDerivation.BLAKE2B_BYTES_MAX,
+                        ii,
+                        "session_",
+                        masterKey);
+                result.add(derivedKey);
+            } catch (SodiumException e) {
+                throw new KeyGenerationException(e);
+            }
+        }
+        return result;
     }
 
     public byte[] sign(Key keyExchangePublicKey, Key signingSecretKey) throws SignMessageException {
