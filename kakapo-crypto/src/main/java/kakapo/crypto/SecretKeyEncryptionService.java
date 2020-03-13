@@ -1,149 +1,99 @@
 package kakapo.crypto;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-
+import com.goterl.lazycode.lazysodium.LazySodiumJava;
+import com.goterl.lazycode.lazysodium.SodiumJava;
+import com.goterl.lazycode.lazysodium.interfaces.PwHash;
+import com.goterl.lazycode.lazysodium.interfaces.SecretBox;
 import kakapo.crypto.exception.DecryptFailedException;
 import kakapo.crypto.exception.EncryptFailedException;
-import kakapo.crypto.exception.KeyGenerationException;
+
+import java.nio.charset.StandardCharsets;
 
 public class SecretKeyEncryptionService {
 
-    private static final String PROVIDER = "BC";
-    private static final int IV_LENGTH = 16;
-    private static final int PBE_ITERATION_COUNT = 100;
-    private static final int PBE_KEY_LENGTH = 256;
+    // We're using a zeroed out salt as we're not storing the password anywhere. The random nonce used
+    // to perform the encryption will suffice.
+    private static final byte[] SALT = new byte[PwHash.SALTBYTES];
 
-    private static final String PBE_ALGORITHM = "PBEWithSHA256And256BitAES-CBC-BC";
-    private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
-    private static final String SECRET_KEY_ALGORITHM = "AES";
+    private LazySodiumJava _lazySodium;
 
-    /**
-     * Encrypt a byte array using the specified password and salt; return the result in a byte
-     * array.
-     *
-     * @param password
-     * @param salt
-     * @param cleartext
-     * @return
-     * @throws EncryptFailedException
-     */
-    public byte[] encryptToByteArray(String password, String salt, byte[] cleartext)
-            throws KeyGenerationException, EncryptFailedException {
-        SecretKey secretKey = buildSecretKey(password, salt);
-        return encryptToByteArray(secretKey, cleartext);
+    public SecretKeyEncryptionService() {
+        _lazySodium = new LazySodiumJava(new SodiumJava());
     }
 
     /**
-     * Decrypt a byte array using the specified password and salt; return the result in a byte
-     * array.
+     * Encrypt a byte array using the specified password.
      *
-     * @param password
-     * @param salt
-     * @param ciphertext
+     * @param passwordString
+     * @param message
      * @return
      * @throws EncryptFailedException
      */
-    public byte[] decryptToByteArray(String password, String salt, byte[] ciphertext)
-            throws KeyGenerationException, DecryptFailedException {
-        SecretKey secretKey = buildSecretKey(password, salt);
-        return decryptToByteArray(secretKey, ciphertext);
-    }
-
-    /**
-     * Encrypt a byte array using the specified secret key; return the result in a byte array.
-     *
-     * @param secret
-     * @param cleartext
-     * @return
-     * @throws EncryptFailedException
-     */
-    private byte[] encryptToByteArray(SecretKey secret, byte[] cleartext)
+    public EncryptionResult encrypt(String passwordString, byte[] message)
             throws EncryptFailedException {
-        try {
-            byte[] iv = generateIv();
-            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
 
-            Cipher encryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM, PROVIDER);
-            encryptionCipher.init(Cipher.ENCRYPT_MODE, secret, ivParameterSpec);
-            byte[] ciphertext = encryptionCipher.doFinal(cleartext);
+        // Convert password to byte array, allocate key byte array, and generate a random salt.
+        byte[] password = passwordString.getBytes(StandardCharsets.UTF_8);
+        byte[] key = new byte[256];
+        // byte[] salt = _lazySodium.randomBytesBuf(PwHash.SALTBYTES);
 
-            ByteArrayOutputStream ciphertextOutputStream = new ByteArrayOutputStream();
-            ciphertextOutputStream.write(iv);
-            ciphertextOutputStream.write(ciphertext);
-            ciphertextOutputStream.flush();
-            ciphertextOutputStream.close();
-            return ciphertextOutputStream.toByteArray();
+        // Hash the password and salt to get an encryption key.
+        _lazySodium.cryptoPwHash(key,
+                key.length,
+                password,
+                password.length,
+                SALT,
+                PwHash.OPSLIMIT_MODERATE,
+                PwHash.MEMLIMIT_MODERATE,
+                PwHash.Alg.getDefault());
 
-        } catch (Exception e) {
-            throw new EncryptFailedException("Encryption error", e);
+        // Allocate ciphertext byte array and generate a random nonce.
+        byte[] ciphertext = new byte[SecretBox.MACBYTES + message.length];
+        byte[] nonce = _lazySodium.randomBytesBuf(SecretBox.NONCEBYTES);
+
+        // Encrypt.
+        if (!_lazySodium.cryptoSecretBoxEasy(ciphertext, message, message.length, nonce, key)) {
+            throw new EncryptFailedException("Encryption failed");
         }
+
+        return new EncryptionResult(ciphertext, nonce);
     }
 
     /**
-     * Decrypt a byte array using the specified secret key; return the result in a byte array.
+     * Decrypt a byte array using the specified password and nonce.
      *
-     * @param secret
+     * @param passwordString
+     * @param nonce
      * @param ciphertext
      * @return
-     * @throws DecryptFailedException
+     * @throws EncryptFailedException
      */
-    private byte[] decryptToByteArray(SecretKey secret, byte[] ciphertext)
+    public byte[] decrypt(String passwordString, byte[] nonce, byte[] ciphertext)
             throws DecryptFailedException {
-        try {
-            Cipher decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM, PROVIDER);
 
-            ByteArrayOutputStream ivStream = new ByteArrayOutputStream();
-            ivStream.write(ciphertext, 0, IV_LENGTH);
+        // Convert password to byte array and allocate key byte array.
+        byte[] password = passwordString.getBytes(StandardCharsets.UTF_8);
+        byte[] key = new byte[256];
 
-            ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-            dataStream.write(ciphertext, IV_LENGTH, ciphertext.length - IV_LENGTH);
+        // Hash the password and salt to get an encryption key.
+        _lazySodium.cryptoPwHash(key,
+                key.length,
+                password,
+                password.length,
+                SALT,
+                PwHash.OPSLIMIT_MODERATE,
+                PwHash.MEMLIMIT_MODERATE,
+                PwHash.Alg.getDefault());
 
-            byte[] iv = ivStream.toByteArray();
-            byte[] data = dataStream.toByteArray();
+        // Allocate plaintext byte array.
+        byte[] plaintext = new byte[ciphertext.length - SecretBox.MACBYTES];
 
-            IvParameterSpec ivspec = new IvParameterSpec(iv);
-            decryptionCipher.init(Cipher.DECRYPT_MODE, secret, ivspec);
-            return decryptionCipher.doFinal(data);
-        } catch (Exception e) {
-            throw new DecryptFailedException("Decryption error", e);
+        // Decrypt.
+        if (!_lazySodium.cryptoSecretBoxOpenEasy(plaintext, ciphertext, ciphertext.length, nonce, key)) {
+            throw new DecryptFailedException("Decryption failed");
         }
+
+        return plaintext;
     }
 
-    /**
-     * Build a secret key from a password and salt.
-     *
-     * @param password
-     * @param salt
-     * @return
-     * @throws KeyGenerationException
-     */
-    private SecretKey buildSecretKey(String password, String salt) throws KeyGenerationException {
-        try {
-            PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray(),
-                    salt.getBytes(StandardCharsets.UTF_8),
-                    PBE_ITERATION_COUNT,
-                    PBE_KEY_LENGTH);
-            SecretKeyFactory factory = SecretKeyFactory.getInstance(PBE_ALGORITHM, PROVIDER);
-            SecretKey tmp = factory.generateSecret(pbeKeySpec);
-            return new SecretKeySpec(tmp.getEncoded(), SECRET_KEY_ALGORITHM);
-        } catch (Exception e) {
-            throw new KeyGenerationException("Secret key error", e);
-        }
-    }
-
-    private static byte[] generateIv() {
-        SecureRandom random = new SecureRandom();
-        byte[] iv = new byte[IV_LENGTH];
-        random.nextBytes(iv);
-        return iv;
-    }
 }

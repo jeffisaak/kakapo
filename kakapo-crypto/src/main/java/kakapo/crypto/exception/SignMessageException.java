@@ -2,6 +2,10 @@ package kakapo.crypto.exception;
 
 public class SignMessageException extends CryptoException {
 
+    public SignMessageException(String message) {
+        super(message);
+    }
+
     public SignMessageException(String message, Exception cause)
     {
         super(message, cause);
