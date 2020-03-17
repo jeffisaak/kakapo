@@ -2,10 +2,10 @@ package kakapo.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestGuidResponse {
+public class SignUpResponse {
 
-    public static RequestGuidResponse success(String guid) {
-        RequestGuidResponse result = new RequestGuidResponse();
+    public static SignUpResponse success(String guid) {
+        SignUpResponse result = new SignUpResponse();
         result.setGuid(guid);
         return result;
     }

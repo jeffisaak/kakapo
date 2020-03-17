@@ -7,15 +7,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
-import java.util.Map;
-
 public interface RetrofitService {
 
-    @GET("/api/v1/account/requestGuid")
-    Call<RequestGuidResponse> requestGuid();
-
     @PUT("/api/v1/account/create")
-    Call<Void> createAccount(@Body SignUpRequest request);
+    Call<SignUpResponse> createAccount(@Body SignUpRequest request);
 
     @PUT("/api/v1/account/delete")
     Call<Void> deleteAccount(@Body DeleteAccountRequest request);
