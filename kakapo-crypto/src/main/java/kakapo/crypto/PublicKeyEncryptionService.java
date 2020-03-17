@@ -4,6 +4,7 @@ import com.goterl.lazycode.lazysodium.LazySodiumJava;
 import com.goterl.lazycode.lazysodium.SodiumJava;
 import com.goterl.lazycode.lazysodium.exceptions.SodiumException;
 import com.goterl.lazycode.lazysodium.interfaces.AEAD;
+import com.goterl.lazycode.lazysodium.interfaces.Box;
 import com.goterl.lazycode.lazysodium.interfaces.KeyDerivation;
 import com.goterl.lazycode.lazysodium.interfaces.Sign;
 import com.goterl.lazycode.lazysodium.utils.Key;
@@ -144,5 +145,33 @@ public class PublicKeyEncryptionService {
         }
 
         return plaintext;
+    }
+
+    public byte[] signAndEncrypt(byte[] message, Key signingSecretKey, Key encryptionPublicKey) {
+        // Sign.
+        byte[] signedMessage = new byte[Sign.BYTES + message.length];
+        _lazySodium.cryptoSign(signedMessage, message, message.length, signingSecretKey.getAsBytes());
+
+        // Encrypt.
+        byte[] ciphertext = new byte[Box.SEALBYTES + signedMessage.length];
+        _lazySodium.cryptoBoxSeal(ciphertext, signedMessage, signedMessage.length, encryptionPublicKey.getAsBytes());
+
+        return ciphertext;
+    }
+
+    public byte[] decryptAndVerify(byte[] ciphertext, KeyPair encryptionKeyPair, Key signingPublicKey) {
+        // Decrypt.
+        byte[] plaintext = new byte[ciphertext.length - Box.SEALBYTES];
+        _lazySodium.cryptoBoxSealOpen(plaintext,
+                ciphertext,
+                ciphertext.length,
+                encryptionKeyPair.getPublicKey().getAsBytes(),
+                encryptionKeyPair.getSecretKey().getAsBytes());
+
+        // Verify.
+        byte[] verifiedPlaintext = new byte[plaintext.length - Sign.BYTES];
+        _lazySodium.cryptoSignOpen(verifiedPlaintext, plaintext, plaintext.length, signingPublicKey.getAsBytes());
+
+        return verifiedPlaintext;
     }
 }
