@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ShareItemRecipient {
 
     private String _guid;
-    private byte[] _publicKeyData;
+    private String _signingPublicKey;
 
     @JsonProperty("guid")
     public String getGuid() {
@@ -16,12 +16,12 @@ public class ShareItemRecipient {
         _guid = guid;
     }
 
-    @JsonProperty("pkr")
-    public byte[] getPublicKeyData() {
-        return _publicKeyData;
+    @JsonProperty("spk")
+    public String getSigningPublicKey() {
+        return _signingPublicKey;
     }
 
-    public void setPublicKeyData(byte[] publicKeyData) {
-        _publicKeyData = publicKeyData;
+    public void setSigningPublicKey(String signingPublicKey) {
+        _signingPublicKey = signingPublicKey;
     }
 }
