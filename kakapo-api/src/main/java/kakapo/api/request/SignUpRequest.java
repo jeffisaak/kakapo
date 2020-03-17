@@ -6,6 +6,7 @@ public class SignUpRequest {
 
     private String _guid;
     private byte[] _publicKeys;
+    private String _publicSigningKey;
 
     @JsonProperty("guid")
     public String getGuid() {
@@ -23,5 +24,14 @@ public class SignUpRequest {
 
     public void setPublicKeys(byte[] publicKeys) {
         _publicKeys = publicKeys;
+    }
+
+    @JsonProperty("psk")
+    public String getPublicSigningKey() {
+        return _publicSigningKey;
+    }
+
+    public void setPublicSigningKey(String publicSigningKey) {
+        _publicSigningKey = publicSigningKey;
     }
 }
