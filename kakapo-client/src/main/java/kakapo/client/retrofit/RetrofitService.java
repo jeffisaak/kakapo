@@ -4,7 +4,9 @@ import kakapo.api.request.SignUpRequest;
 import kakapo.api.request.UploadPreKeysRequest;
 import kakapo.api.response.FetchPreKeyResponse;
 import kakapo.api.response.SignUpResponse;
+import kakapo.api.response.SubmitItemResponse;
 import kakapo.api.response.UploadPreKeysResponse;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -47,11 +49,14 @@ public interface RetrofitService {
 //    @PUT("/api/v1/server/config")
 //    Call<ServerConfigResponse> serverConfig(@Body ServerConfigRequest request);
 //
-//    @Multipart
-//    @POST("/api/v1/item/submit")
-//    Call<SubmitItemResponse> submitItem(@Part MultipartBody.Part json,
-//                                        @Part MultipartBody.Part header,
-//                                        @Part MultipartBody.Part content);
+
+    @Multipart
+    @POST("/api/v1/item")
+    Call<SubmitItemResponse> submitItem(@Header("Kakapo-ID") String userGuid,
+                                        @Header("Kakapo-API-Key") String apiKey,
+                                        @Part MultipartBody.Part json,
+                                        @Part MultipartBody.Part header,
+                                        @Part MultipartBody.Part content);
 //
 //    @PUT("/api/v1/item/delete")
 //    Call<DeleteItemResponse> deleteItem(@Body DeleteItemRequest request);

@@ -1,40 +1,30 @@
 package kakapo.api.request;
 
-import kakapo.util.SerializationUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import kakapo.api.model.SubmitItemDestination;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
-public class SubmitItemRequest extends SignedRequest {
+public class SubmitItemRequest {
 
-    private Long _parentItemRemoteId;
-    private Collection<String> _sharedWithGuids;
+    private List<SubmitItemDestination> _destinations;
+    private String _keyExchangePublicKey;
 
-    @Override
-    protected void serializeMessageDigest(DataOutputStream outputStream) throws IOException {
-        SerializationUtil.writeOptionalLong(outputStream, _parentItemRemoteId);
-        for (String sharedWithGuid : _sharedWithGuids) {
-            outputStream.writeUTF(sharedWithGuid);
-        }
+    @JsonProperty("destinations")
+    public List<SubmitItemDestination> getDestinations() {
+        return _destinations;
     }
 
-    @JsonProperty("pir")
-    public Long getParentItemRemoteId() {
-        return _parentItemRemoteId;
+    public void setDestinations(List<SubmitItemDestination> destinations) {
+        _destinations = destinations;
     }
 
-    public void setParentItemRemoteId(Long parentItemRemoteId) {
-        _parentItemRemoteId = parentItemRemoteId;
+    @JsonProperty("keyExchangePublicKey")
+    public String getKeyExchangePublicKey() {
+        return _keyExchangePublicKey;
     }
 
-    @JsonProperty("swg")
-    public Collection<String> getSharedWithGuids() {
-        return _sharedWithGuids;
-    }
-
-    public void setSharedWithGuids(Collection<String> sharedWithGuids) {
-        _sharedWithGuids = sharedWithGuids;
+    public void setKeyExchangePublicKey(String keyExchangePublicKey) {
+        _keyExchangePublicKey = keyExchangePublicKey;
     }
 }
