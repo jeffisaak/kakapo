@@ -1,9 +1,9 @@
 package kakapo.client.retrofit;
 
-import kakapo.api.request.*;
-import kakapo.api.response.*;
-import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
+import kakapo.api.request.SignUpRequest;
+import kakapo.api.request.UploadPreKeysRequest;
+import kakapo.api.response.FetchPreKeyResponse;
+import kakapo.api.response.SignUpResponse;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -13,9 +13,9 @@ public interface RetrofitService {
     Call<SignUpResponse> createAccount(@Body SignUpRequest request);
 
     @POST("/api/v1/account/preKeys")
-    Call<Void> uploadPreKeys(@Header("Kakapo-ID") String userGuid,
-                             @Header("Kakapo-API-Key") String apiKey,
-                             @Body UploadPreKeysRequest request);
+    Call<FetchPreKeyResponse> uploadPreKeys(@Header("Kakapo-ID") String userGuid,
+                                            @Header("Kakapo-API-Key") String apiKey,
+                                            @Body UploadPreKeysRequest request);
 
     @DELETE("/api/v1/account/{guid}")
     Call<Void> deleteAccount(@Path("guid") String guidToDelete,
