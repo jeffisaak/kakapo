@@ -42,8 +42,8 @@ public class SecretKeyEncryptionService {
                 password,
                 password.length,
                 SALT,
-                PwHash.OPSLIMIT_MODERATE,
-                PwHash.MEMLIMIT_MODERATE,
+                PwHash.OPSLIMIT_INTERACTIVE,
+                PwHash.MEMLIMIT_INTERACTIVE,
                 PwHash.Alg.getDefault());
 
         // Allocate ciphertext byte array and generate a random nonce.
@@ -80,8 +80,8 @@ public class SecretKeyEncryptionService {
                 password,
                 password.length,
                 SALT,
-                PwHash.OPSLIMIT_MODERATE,
-                PwHash.MEMLIMIT_MODERATE,
+                PwHash.OPSLIMIT_INTERACTIVE,
+                PwHash.MEMLIMIT_INTERACTIVE,
                 PwHash.Alg.getDefault());
 
         // Allocate plaintext byte array.
