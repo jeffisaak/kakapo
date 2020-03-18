@@ -17,8 +17,10 @@ public interface RetrofitService {
                              @Header("Kakapo-API-Key") String apiKey,
                              @Body UploadPreKeysRequest request);
 
-//    @PUT("/api/v1/account/delete")
-//    Call<Void> deleteAccount(@Body DeleteAccountRequest request);
+    @DELETE("/api/v1/account/{guid}")
+    Call<Void> deleteAccount(@Path("guid") String guidToDelete,
+                             @Header("Kakapo-ID") String userGuid,
+                             @Header("Kakapo-API-Key") String apiKey);
 //
 //    @PUT("/api/v1/account/publicKey")
 //    Call<FetchPublicKeyResponse> fetchPublicKey(@Body FetchPublicKeyRequest request);
