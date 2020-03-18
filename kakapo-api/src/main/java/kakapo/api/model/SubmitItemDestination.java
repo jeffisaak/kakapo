@@ -4,9 +4,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SubmitItemDestination {
 
+    private String _userGuid;
     private Long _preKeyId;
     private String _encryptedGroupKey;
     private String _nonce;
+
+    @JsonProperty("userGuid")
+    public String getUserGuid() {
+        return _userGuid;
+    }
+
+    public void setUserGuid(String userGuid) {
+        _userGuid = userGuid;
+    }
 
     @JsonProperty("preKeyId")
     public Long getPreKeyId() {
