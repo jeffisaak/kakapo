@@ -1,5 +1,6 @@
 package kakapo.crypto;
 
+import com.goterl.lazycode.lazysodium.LazySodium;
 import com.goterl.lazycode.lazysodium.LazySodiumJava;
 import com.goterl.lazycode.lazysodium.SodiumJava;
 import com.goterl.lazycode.lazysodium.exceptions.SodiumException;
@@ -17,10 +18,10 @@ import java.util.Collection;
 
 public class PublicKeyEncryptionService {
 
-    private LazySodiumJava _lazySodium;
+    private LazySodium _lazySodium;
 
-    public PublicKeyEncryptionService() {
-        _lazySodium = new LazySodiumJava(new SodiumJava());
+    public PublicKeyEncryptionService(LazySodium lazySodium) {
+        _lazySodium = lazySodium;
     }
 
     public KeyPair generateSigningKeyPair() throws KeyGenerationException {

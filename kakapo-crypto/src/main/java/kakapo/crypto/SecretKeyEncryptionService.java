@@ -1,7 +1,6 @@
 package kakapo.crypto;
 
-import com.goterl.lazycode.lazysodium.LazySodiumJava;
-import com.goterl.lazycode.lazysodium.SodiumJava;
+import com.goterl.lazycode.lazysodium.LazySodium;
 import com.goterl.lazycode.lazysodium.interfaces.PwHash;
 import com.goterl.lazycode.lazysodium.interfaces.SecretBox;
 import kakapo.crypto.exception.DecryptFailedException;
@@ -15,10 +14,10 @@ public class SecretKeyEncryptionService {
     // to perform the encryption will suffice.
     private static final byte[] SALT = new byte[PwHash.SALTBYTES];
 
-    private LazySodiumJava _lazySodium;
+    private LazySodium _lazySodium;
 
-    public SecretKeyEncryptionService() {
-        _lazySodium = new LazySodiumJava(new SodiumJava());
+    public SecretKeyEncryptionService(LazySodium lazySodium) {
+        _lazySodium = lazySodium;
     }
 
     /**

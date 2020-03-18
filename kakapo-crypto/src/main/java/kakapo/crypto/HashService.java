@@ -1,7 +1,6 @@
 package kakapo.crypto;
 
-import com.goterl.lazycode.lazysodium.LazySodiumJava;
-import com.goterl.lazycode.lazysodium.SodiumJava;
+import com.goterl.lazycode.lazysodium.LazySodium;
 import com.goterl.lazycode.lazysodium.interfaces.PwHash;
 import kakapo.crypto.exception.HashingException;
 
@@ -9,10 +8,10 @@ import java.nio.charset.StandardCharsets;
 
 public class HashService {
 
-    private LazySodiumJava _lazySodium;
+    private LazySodium _lazySodium;
 
-    public HashService() {
-        _lazySodium = new LazySodiumJava(new SodiumJava());
+    public HashService(LazySodium lazySodium) {
+        _lazySodium = lazySodium;
     }
 
     public String hashPassword(String passwordString) throws HashingException {
