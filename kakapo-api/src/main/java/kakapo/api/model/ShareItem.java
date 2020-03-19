@@ -12,6 +12,9 @@ public class ShareItem {
     private long _itemTimestamp;
     private byte[] _encryptedHeader;
     private long _childCount;
+    private long _preKeyId;
+    private String _encryptedGroupKey;
+    private String _nonce;
 
     @JsonProperty("r")
     public long getRemoteId() {
@@ -83,5 +86,32 @@ public class ShareItem {
 
     public void setChildCount(long childCount) {
         _childCount = childCount;
+    }
+
+    @JsonProperty("preKeyId")
+    public long getPreKeyId() {
+        return _preKeyId;
+    }
+
+    public void setPreKeyId(long preKeyId) {
+        _preKeyId = preKeyId;
+    }
+
+    @JsonProperty("encryptedGroupKey")
+    public String getEncryptedGroupKey() {
+        return _encryptedGroupKey;
+    }
+
+    public void setEncryptedGroupKey(String encryptedGroupKey) {
+        _encryptedGroupKey = encryptedGroupKey;
+    }
+
+    @JsonProperty("nonce")
+    public String getNonce() {
+        return _nonce;
+    }
+
+    public void setNonce(String nonce) {
+        _nonce = nonce;
     }
 }
