@@ -11,7 +11,6 @@ public class ShareItem {
     private boolean _blacklisted;
     private long _itemTimestamp;
     private byte[] _encryptedHeader;
-    private byte[] _encryptedContent;
     private long _childCount;
 
     @JsonProperty("r")
@@ -75,15 +74,6 @@ public class ShareItem {
 
     public void setEncryptedHeader(byte[] encryptedHeader) {
         _encryptedHeader = encryptedHeader;
-    }
-
-    @JsonProperty("ec")
-    public byte[] getEncryptedContent() {
-        return _encryptedContent;
-    }
-
-    public void setEncryptedContent(byte[] encryptedContent) {
-        _encryptedContent = encryptedContent;
     }
 
     @JsonProperty("cc")
