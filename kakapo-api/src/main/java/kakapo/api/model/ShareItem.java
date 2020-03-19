@@ -10,7 +10,8 @@ public class ShareItem {
     private boolean _markedAsDeleted;
     private boolean _blacklisted;
     private long _itemTimestamp;
-    private byte[] _encryptedHeader;
+    private String _encryptedHeader;
+    private String _headerNonce;
     private long _childCount;
     private long _preKeyId;
     private String _keyExchangePublicKey;
@@ -72,12 +73,21 @@ public class ShareItem {
     }
 
     @JsonProperty("eh")
-    public byte[] getEncryptedHeader() {
+    public String getEncryptedHeader() {
         return _encryptedHeader;
     }
 
-    public void setEncryptedHeader(byte[] encryptedHeader) {
+    public void setEncryptedHeader(String encryptedHeader) {
         _encryptedHeader = encryptedHeader;
+    }
+
+    @JsonProperty("headerNonce")
+    public String getHeaderNonce() {
+        return _headerNonce;
+    }
+
+    public void setHeaderNonce(String headerNonce) {
+        _headerNonce = headerNonce;
     }
 
     @JsonProperty("cc")
