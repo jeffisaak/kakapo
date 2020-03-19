@@ -66,6 +66,11 @@ public interface RetrofitService {
                                                     @Query("parent") Long parentItemRemoteId,
                                                     @Query("id") Long itemRemoteId);
 
+    @GET("/api/v1/item/{itemRemoteId}/recipients")
+    Call<FetchRecipientsResponse> fetchRecipients(@Path("itemRemoteId") Long itemRemoteId,
+                                                  @Header("Kakapo-ID") String userGuid,
+                                                  @Header("Kakapo-API-Key") String apiKey);
+
 //
 //    @PUT("/api/v1/item/delete")
 //    Call<DeleteItemResponse> deleteItem(@Body DeleteItemRequest request);
@@ -75,6 +80,4 @@ public interface RetrofitService {
 //    @PUT("/api/v1/item/content")
 //    Call<ResponseBody> streamItemContent(@Body StreamContentRequest request);
 //
-//    @PUT("/api/v1/item/recipients")
-//    Call<FetchRecipientsResponse> fetchRecipients(@Body FetchRecipientsRequest request);
 }
