@@ -24,6 +24,10 @@ public class PublicKeyEncryptionService {
         _lazySodium = lazySodium;
     }
 
+    public LazySodium lazySodium() {
+        return _lazySodium;
+    }
+
     public KeyPair generateSigningKeyPair() throws KeyGenerationException {
         try {
             return _lazySodium.cryptoSignKeypair();
