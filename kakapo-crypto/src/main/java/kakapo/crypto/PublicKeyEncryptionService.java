@@ -142,7 +142,7 @@ public class PublicKeyEncryptionService {
                 ciphertext,
                 ciphertext.length,
                 additionalData,
-                additionalData.length,
+                additionalData != null ? additionalData.length : 0,
                 nonce,
                 key);
         if (!decryptSuccessful) {
