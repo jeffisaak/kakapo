@@ -119,7 +119,7 @@ public class PublicKeyEncryptionService {
                 message,
                 message.length,
                 additionalData,
-                additionalData.length,
+                additionalData != null ? additionalData.length : 0,
                 null,
                 nonce,
                 key);
