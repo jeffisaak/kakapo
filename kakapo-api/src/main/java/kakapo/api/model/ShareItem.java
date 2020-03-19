@@ -13,6 +13,7 @@ public class ShareItem {
     private byte[] _encryptedHeader;
     private long _childCount;
     private long _preKeyId;
+    private String _keyExchangePublicKey;
     private String _encryptedGroupKey;
     private String _nonce;
 
@@ -95,6 +96,15 @@ public class ShareItem {
 
     public void setPreKeyId(long preKeyId) {
         _preKeyId = preKeyId;
+    }
+
+    @JsonProperty("keyExchangePublicKey")
+    public String getKeyExchangePublicKey() {
+        return _keyExchangePublicKey;
+    }
+
+    public void setKeyExchangePublicKey(String keyExchangePublicKey) {
+        _keyExchangePublicKey = keyExchangePublicKey;
     }
 
     @JsonProperty("encryptedGroupKey")
