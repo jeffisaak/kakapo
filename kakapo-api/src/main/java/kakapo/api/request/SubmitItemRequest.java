@@ -7,8 +7,28 @@ import java.util.List;
 
 public class SubmitItemRequest {
 
+    private String _headerNonce;
+    private String _contentNonce;
     private List<SubmitItemDestination> _destinations;
     private String _keyExchangePublicKey;
+
+    @JsonProperty("headerNonce")
+    public String getHeaderNonce() {
+        return _headerNonce;
+    }
+
+    public void setHeaderNonce(String headerNonce) {
+        _headerNonce = headerNonce;
+    }
+
+    @JsonProperty("contentNonce")
+    public String getContentNonce() {
+        return _contentNonce;
+    }
+
+    public void setContentNonce(String contentNonce) {
+        _contentNonce = contentNonce;
+    }
 
     @JsonProperty("destinations")
     public List<SubmitItemDestination> getDestinations() {
