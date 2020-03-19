@@ -27,7 +27,7 @@ public interface RetrofitService {
                                           @Header("Kakapo-ID") String userGuid,
                                           @Header("Kakapo-API-Key") String apiKey);
 
-    @PUT("/api/v1/account/quota")
+    @PUT("/api/v1/account/{guid}/quota")
     Call<QuotaResponse> fetchQuota(@Path("guid") String targetUserGuid,
                                    @Header("Kakapo-ID") String userGuid,
                                    @Header("Kakapo-API-Key") String apiKey);
