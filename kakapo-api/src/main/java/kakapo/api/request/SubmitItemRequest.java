@@ -11,6 +11,7 @@ public class SubmitItemRequest {
     private String _contentNonce;
     private List<SubmitItemDestination> _destinations;
     private String _keyExchangePublicKey;
+    private Long _parentRemoteItemId;
 
     @JsonProperty("headerNonce")
     public String getHeaderNonce() {
@@ -46,5 +47,14 @@ public class SubmitItemRequest {
 
     public void setKeyExchangePublicKey(String keyExchangePublicKey) {
         _keyExchangePublicKey = keyExchangePublicKey;
+    }
+
+    @JsonProperty("parentRemoteItemId")
+    public Long getParentRemoteItemId() {
+        return _parentRemoteItemId;
+    }
+
+    public void setParentRemoteItemId(Long parentRemoteItemId) {
+        _parentRemoteItemId = parentRemoteItemId;
     }
 }
