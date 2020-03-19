@@ -2,10 +2,7 @@ package kakapo.client.retrofit;
 
 import kakapo.api.request.SignUpRequest;
 import kakapo.api.request.UploadPreKeysRequest;
-import kakapo.api.response.FetchPreKeyResponse;
-import kakapo.api.response.SignUpResponse;
-import kakapo.api.response.SubmitItemResponse;
-import kakapo.api.response.UploadPreKeysResponse;
+import kakapo.api.response.*;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -30,12 +27,15 @@ public interface RetrofitService {
                                           @Header("Kakapo-ID") String userGuid,
                                           @Header("Kakapo-API-Key") String apiKey);
 
+    @PUT("/api/v1/account/quota")
+    Call<QuotaResponse> fetchQuota(@Path("guid") String targetUserGuid,
+                                   @Header("Kakapo-ID") String userGuid,
+                                   @Header("Kakapo-API-Key") String apiKey);
+
+
 //
 //    @PUT("/api/v1/account/publicKey")
 //    Call<FetchPublicKeyResponse> fetchPublicKey(@Body FetchPublicKeyRequest request);
-//
-//    @PUT("/api/v1/account/quota")
-//    Call<QuotaResponse> fetchQuota(@Body QuotaRequest request);
 //
 //    @PUT("/api/v1/account/upload")
 //    Call<UploadAccountResponse> uploadAccount(@Body UploadAccountRequest request);
