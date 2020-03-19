@@ -61,7 +61,7 @@ public interface RetrofitService {
     @GET("/api/v1/item/headers")
     Call<FetchItemHeadersResponse> fetchItemHeaders(@Header("Kakapo-ID") String userGuid,
                                                     @Header("Kakapo-API-Key") String apiKey,
-                                                    @Query("count") Long itemCount,
+                                                    @Query("count") Integer itemCount,
                                                     @Query("last") Long lastItemRemoteId,
                                                     @Query("parent") Long parentItemRemoteId,
                                                     @Query("id") Long itemRemoteId);
