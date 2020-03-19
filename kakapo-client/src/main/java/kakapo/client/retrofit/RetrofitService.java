@@ -32,10 +32,10 @@ public interface RetrofitService {
                                    @Header("Kakapo-ID") String userGuid,
                                    @Header("Kakapo-API-Key") String apiKey);
 
-
-//
-//    @PUT("/api/v1/account/publicKey")
-//    Call<FetchPublicKeyResponse> fetchPublicKey(@Body FetchPublicKeyRequest request);
+    @GET("/api/v1/account/{guid}/publicKey")
+    Call<FetchPublicKeyResponse> fetchPublicKey(@Path("guid") String targetUserGuid,
+                                                @Header("Kakapo-ID") String userGuid,
+                                                @Header("Kakapo-API-Key") String apiKey);
 //
 //    @PUT("/api/v1/account/upload")
 //    Call<UploadAccountResponse> uploadAccount(@Body UploadAccountRequest request);
