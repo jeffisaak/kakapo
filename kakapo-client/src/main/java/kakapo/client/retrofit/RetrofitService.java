@@ -57,12 +57,19 @@ public interface RetrofitService {
                                         @Part MultipartBody.Part json,
                                         @Part MultipartBody.Part header,
                                         @Part MultipartBody.Part content);
+
+    @GET("/api/v1/item/headers")
+    Call<FetchItemHeadersResponse> fetchItemHeaders(@Header("Kakapo-ID") String userGuid,
+                                                    @Header("Kakapo-API-Key") String apiKey,
+                                                    @Query("count") Long itemCount,
+                                                    @Query("last") Long lastItemRemoteId,
+                                                    @Query("parent") Long parentItemRemoteId,
+                                                    @Query("id") Long itemRemoteId);
+
 //
 //    @PUT("/api/v1/item/delete")
 //    Call<DeleteItemResponse> deleteItem(@Body DeleteItemRequest request);
 //
-//    @PUT("/api/v1/item/headers")
-//    Call<FetchItemHeadersResponse> fetchItemHeaders(@Body FetchItemHeadersRequest request);
 //
 //    @Streaming
 //    @PUT("/api/v1/item/content")
