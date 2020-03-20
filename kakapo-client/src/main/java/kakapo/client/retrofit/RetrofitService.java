@@ -79,7 +79,7 @@ public interface RetrofitService {
                                         @Header("Kakapo-API-Key") String apiKey);
 
     @Streaming
-    @PUT("/api/v1/item/{itemRemoteId}/content")
+    @GET("/api/v1/item/{itemRemoteId}/content")
     Call<ResponseBody> streamItemContent(@Path("itemRemoteId") Long itemRemoteId,
                                          @Header("Kakapo-ID") String userGuid,
                                          @Header("Kakapo-API-Key") String apiKey);
