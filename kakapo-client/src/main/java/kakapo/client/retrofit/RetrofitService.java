@@ -4,6 +4,7 @@ import kakapo.api.request.SignUpRequest;
 import kakapo.api.request.UploadPreKeysRequest;
 import kakapo.api.response.*;
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -71,13 +72,16 @@ public interface RetrofitService {
                                                   @Header("Kakapo-ID") String userGuid,
                                                   @Header("Kakapo-API-Key") String apiKey);
 
-//
-//    @PUT("/api/v1/item/delete")
-//    Call<DeleteItemResponse> deleteItem(@Body DeleteItemRequest request);
-//
-//
-//    @Streaming
-//    @PUT("/api/v1/item/content")
-//    Call<ResponseBody> streamItemContent(@Body StreamContentRequest request);
-//
+
+    @DELETE("/api/v1/item/{itemRemoteId}")
+    Call<DeleteItemResponse> deleteItem(@Path("itemRemoteId") Long itemRemoteId,
+                                        @Header("Kakapo-ID") String userGuid,
+                                        @Header("Kakapo-API-Key") String apiKey);
+
+    @Streaming
+    @PUT("/api/v1/item/{itemRemoteId}/content")
+    Call<ResponseBody> streamItemContent(@Path("itemRemoteId") Long itemRemoteId,
+                                         @Header("Kakapo-ID") String userGuid,
+                                         @Header("Kakapo-API-Key") String apiKey);
+
 }
