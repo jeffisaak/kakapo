@@ -1,19 +1,14 @@
 package kakapo.client.retrofit;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+
+import javax.net.ssl.*;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.util.concurrent.TimeUnit;
 
 public class RetrofitServiceGenerator {
 
@@ -26,7 +21,10 @@ public class RetrofitServiceGenerator {
         if (debug) {
             httpClient = buildTrustingHttpClient();
         } else {
-            httpClient = new OkHttpClient.Builder();
+            httpClient = new OkHttpClient
+                    .Builder()
+                    .writeTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS);
         }
 
         Retrofit.Builder builder =
@@ -80,7 +78,9 @@ public class RetrofitServiceGenerator {
 
         final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS);
 
         httpClient.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
         httpClient.hostnameVerifier(new HostnameVerifier() {
