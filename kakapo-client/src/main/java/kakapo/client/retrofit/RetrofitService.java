@@ -13,6 +13,11 @@ public interface RetrofitService {
     @POST("/api/v1/account")
     Call<SignUpResponse> createAccount(@Body SignUpRequest request);
 
+    @GET("/api/v1/account/{guid}")
+    Call<Void> authenticate(@Path("guid") String targetGuid,
+                            @Header("Kakapo-ID") String userGuid,
+                            @Header("Kakapo-API-Key") String apiKey);
+
     @POST("/api/v1/account/preKeys")
     Call<UploadPreKeysResponse> uploadPreKeys(@Header("Kakapo-ID") String userGuid,
                                               @Header("Kakapo-API-Key") String apiKey,
