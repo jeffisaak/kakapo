@@ -37,7 +37,8 @@ public interface RetrofitService {
     Call<FetchPublicKeyResponse> fetchPublicKey(@Path("guid") String targetUserGuid,
                                                 @Header("Kakapo-ID") String userGuid,
                                                 @Header("Kakapo-API-Key") String apiKey);
-//
+
+    //
 //    @PUT("/api/v1/account/upload")
 //    Call<UploadAccountResponse> uploadAccount(@Body UploadAccountRequest request);
 //
@@ -47,9 +48,9 @@ public interface RetrofitService {
 //    @PUT("/api/v1/account/blacklist")
 //    Call<Void> blacklist(@Body BlacklistRequest request);
 //
-//    @PUT("/api/v1/server/config")
-//    Call<ServerConfigResponse> serverConfig(@Body ServerConfigRequest request);
-//
+    @PUT("/api/v1/server/config")
+    Call<ServerConfigResponse> serverConfig(@Header("Kakapo-ID") String userGuid,
+                                            @Header("Kakapo-API-Key") String apiKey);
 
     @Multipart
     @POST("/api/v1/item")
