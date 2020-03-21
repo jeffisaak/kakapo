@@ -16,7 +16,7 @@ public class ShareItem {
     private long _preKeyId;
     private String _keyExchangePublicKey;
     private String _encryptedGroupKey;
-    private String _nonce;
+    private String _groupKeyNonce;
 
     @JsonProperty("remoteId")
     public long getRemoteId() {
@@ -126,12 +126,12 @@ public class ShareItem {
         _encryptedGroupKey = encryptedGroupKey;
     }
 
-    @JsonProperty("nonce")
-    public String getNonce() {
-        return _nonce;
+    @JsonProperty("groupKeyNonce")
+    public String getGroupKeyNonce() {
+        return _groupKeyNonce;
     }
 
-    public void setNonce(String nonce) {
-        _nonce = nonce;
+    public void setGroupKeyNonce(String nonce) {
+        _groupKeyNonce = nonce;
     }
 }
