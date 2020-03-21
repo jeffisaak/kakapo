@@ -69,13 +69,17 @@ public class RetrofitServiceGenerator {
             }
         };
 
-        Retrofit.Builder builder =
+        OkHttpClient client = httpClient
+                .addInterceptor(timeoutInterceptor)
+                .build();
+
+        Retrofit retrofit =
                 new Retrofit.Builder()
                         .baseUrl(baseUrl)
-                        .addConverterFactory(JacksonConverterFactory.create());
+                        .addConverterFactory(JacksonConverterFactory.create())
+                        .client(client)
+                        .build();
 
-        OkHttpClient client = httpClient.build();
-        Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
     }
 
