@@ -6,7 +6,7 @@ import kakapo.util.SerializationUtil;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class BlacklistRequest extends SignedRequest {
+public class BlacklistRequest {
 
     private String _targetGuid;
 
@@ -15,7 +15,7 @@ public class BlacklistRequest extends SignedRequest {
         SerializationUtil.writeOptionalUTF(outputStream, _targetGuid);
     }
 
-    @JsonProperty("tg")
+    @JsonProperty("targetGuid")
     public String getTargetGuid() {
         return _targetGuid;
     }

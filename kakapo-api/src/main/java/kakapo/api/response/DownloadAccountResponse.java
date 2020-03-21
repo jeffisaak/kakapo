@@ -12,7 +12,7 @@ public class DownloadAccountResponse {
 
     private byte[] _encryptedAccountData;
 
-    @JsonProperty("ead")
+    @JsonProperty("encryptedAccountData")
     public byte[] getEncryptedAccountData() {
         return _encryptedAccountData;
     }

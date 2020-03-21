@@ -18,7 +18,7 @@ public class ShareItem {
     private String _encryptedGroupKey;
     private String _nonce;
 
-    @JsonProperty("r")
+    @JsonProperty("remoteId")
     public long getRemoteId() {
         return _remoteId;
     }
@@ -27,7 +27,7 @@ public class ShareItem {
         _remoteId = remoteId;
     }
 
-    @JsonProperty("og")
+    @JsonProperty("ownerGuid")
     public String getOwnerGuid() {
         return _ownerGuid;
     }
@@ -36,7 +36,7 @@ public class ShareItem {
         _ownerGuid = ownerGuid;
     }
 
-    @JsonProperty("pir")
+    @JsonProperty("parentRemoteId")
     public Long getParentItemRemoteId() {
         return _parentItemRemoteId;
     }
@@ -45,7 +45,7 @@ public class ShareItem {
         _parentItemRemoteId = parentItemRemoteId;
     }
 
-    @JsonProperty("mad")
+    @JsonProperty("markedAsDeleted")
     public boolean isMarkedAsDeleted() {
         return _markedAsDeleted;
     }
@@ -54,7 +54,7 @@ public class ShareItem {
         _markedAsDeleted = markedAsDeleted;
     }
 
-    @JsonProperty("bl")
+    @JsonProperty("blacklisted")
     public boolean isBlacklisted() {
         return _blacklisted;
     }
@@ -63,7 +63,7 @@ public class ShareItem {
         _blacklisted = blacklisted;
     }
 
-    @JsonProperty("it")
+    @JsonProperty("itemTimestamp")
     public long getItemTimestamp() {
         return _itemTimestamp;
     }
@@ -72,7 +72,7 @@ public class ShareItem {
         _itemTimestamp = itemTimestamp;
     }
 
-    @JsonProperty("eh")
+    @JsonProperty("encryptedHeader")
     public String getEncryptedHeader() {
         return _encryptedHeader;
     }
@@ -90,7 +90,7 @@ public class ShareItem {
         _headerNonce = headerNonce;
     }
 
-    @JsonProperty("cc")
+    @JsonProperty("childCount")
     public long getChildCount() {
         return _childCount;
     }

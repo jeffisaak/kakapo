@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class UploadAccountRequest extends SignedRequest {
+public class UploadAccountRequest {
 
     private byte[] _nonce;
     private byte[] _encryptedAccountData;
@@ -17,7 +17,7 @@ public class UploadAccountRequest extends SignedRequest {
         SerializationUtil.writeBytes(outputStream, _encryptedAccountData);
     }
 
-    @JsonProperty("n")
+    @JsonProperty("nonce")
     public byte[] getNonce() {
         return _nonce;
     }
@@ -26,7 +26,7 @@ public class UploadAccountRequest extends SignedRequest {
         _nonce = nonce;
     }
 
-    @JsonProperty("ead")
+    @JsonProperty("encryptedAccountData")
     public byte[] getEncryptedAccountData() {
         return _encryptedAccountData;
     }

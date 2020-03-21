@@ -12,7 +12,7 @@ public class FetchPublicKeyResponse {
 
     private String _signingPublicKey;
 
-    @JsonProperty("spk")
+    @JsonProperty("signingPublicKey")
     public String getSigningPublicKey() {
         return _signingPublicKey;
     }

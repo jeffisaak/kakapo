@@ -16,7 +16,7 @@ public class SubmitItemResponse {
     private int _usedQuota;
     private int _maxQuota;
 
-    @JsonProperty("ir")
+    @JsonProperty("itemRemoteId")
     public long getItemRemoteId() {
         return _itemRemoteId;
     }
@@ -25,7 +25,7 @@ public class SubmitItemResponse {
         _itemRemoteId = itemRemoteId;
     }
 
-    @JsonProperty("uq")
+    @JsonProperty("usedQuota")
     public int getUsedQuota() {
         return _usedQuota;
     }
@@ -34,7 +34,7 @@ public class SubmitItemResponse {
         _usedQuota = usedQuota;
     }
 
-    @JsonProperty("mq")
+    @JsonProperty("maxQuota")
     public int getMaxQuota() {
         return _maxQuota;
     }
