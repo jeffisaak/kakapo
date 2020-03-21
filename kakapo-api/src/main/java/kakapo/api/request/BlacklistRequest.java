@@ -10,11 +10,6 @@ public class BlacklistRequest {
 
     private String _targetGuid;
 
-    @Override
-    protected void serializeMessageDigest(DataOutputStream outputStream) throws IOException {
-        SerializationUtil.writeOptionalUTF(outputStream, _targetGuid);
-    }
-
     @JsonProperty("targetGuid")
     public String getTargetGuid() {
         return _targetGuid;

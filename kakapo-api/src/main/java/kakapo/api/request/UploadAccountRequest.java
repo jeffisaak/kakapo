@@ -11,12 +11,6 @@ public class UploadAccountRequest {
     private byte[] _nonce;
     private byte[] _encryptedAccountData;
 
-    @Override
-    protected void serializeMessageDigest(DataOutputStream outputStream) throws IOException {
-        SerializationUtil.writeBytes(outputStream, _nonce);
-        SerializationUtil.writeBytes(outputStream, _encryptedAccountData);
-    }
-
     @JsonProperty("nonce")
     public byte[] getNonce() {
         return _nonce;
