@@ -3,15 +3,15 @@ package kakapo.client.retrofit;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-import javax.net.ssl.*;
-import java.io.IOException;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
 public class RetrofitServiceGenerator {
@@ -22,7 +22,7 @@ public class RetrofitServiceGenerator {
 
     public static <S> S createService(Class<S> serviceClass, String baseUrl, boolean debug) {
 
-        OkHttpClient.Builder httpClient = null;
+        OkHttpClient.Builder httpClient;
 
         // If we're running in debug mode, create an HTTP client that trusts everybody and
         // everything. Otherwise, create a regular HTTP client.
@@ -33,40 +33,37 @@ public class RetrofitServiceGenerator {
         }
 
         // Set up an interceptor for custom timeouts.
-        Interceptor timeoutInterceptor = new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
+        Interceptor timeoutInterceptor = chain -> {
+            Request request = chain.request();
 
-                int connectTimeout = chain.connectTimeoutMillis();
-                int readTimeout = chain.readTimeoutMillis();
-                int writeTimeout = chain.writeTimeoutMillis();
+            int connectTimeout = chain.connectTimeoutMillis();
+            int readTimeout = chain.readTimeoutMillis();
+            int writeTimeout = chain.writeTimeoutMillis();
 
-                String connectNew = request.header(CONNECT_TIMEOUT);
-                String readNew = request.header(READ_TIMEOUT);
-                String writeNew = request.header(WRITE_TIMEOUT);
+            String connectNew = request.header(CONNECT_TIMEOUT);
+            String readNew = request.header(READ_TIMEOUT);
+            String writeNew = request.header(WRITE_TIMEOUT);
 
-                if (connectNew != null) {
-                    connectTimeout = Integer.valueOf(connectNew);
-                }
-                if (readNew != null) {
-                    readTimeout = Integer.valueOf(readNew);
-                }
-                if (writeNew != null) {
-                    writeTimeout = Integer.valueOf(writeNew);
-                }
-
-                Request.Builder builder = request.newBuilder();
-                builder.removeHeader(CONNECT_TIMEOUT);
-                builder.removeHeader(READ_TIMEOUT);
-                builder.removeHeader(WRITE_TIMEOUT);
-
-                return chain
-                        .withConnectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
-                        .withReadTimeout(readTimeout, TimeUnit.MILLISECONDS)
-                        .withWriteTimeout(writeTimeout, TimeUnit.MILLISECONDS)
-                        .proceed(builder.build());
+            if (connectNew != null) {
+                connectTimeout = Integer.parseInt(connectNew);
             }
+            if (readNew != null) {
+                readTimeout = Integer.parseInt(readNew);
+            }
+            if (writeNew != null) {
+                writeTimeout = Integer.parseInt(writeNew);
+            }
+
+            Request.Builder builder = request.newBuilder();
+            builder.removeHeader(CONNECT_TIMEOUT);
+            builder.removeHeader(READ_TIMEOUT);
+            builder.removeHeader(WRITE_TIMEOUT);
+
+            return chain
+                    .withConnectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+                    .withReadTimeout(readTimeout, TimeUnit.MILLISECONDS)
+                    .withWriteTimeout(writeTimeout, TimeUnit.MILLISECONDS)
+                    .proceed(builder.build());
         };
 
         OkHttpClient client = httpClient
@@ -90,13 +87,13 @@ public class RetrofitServiceGenerator {
                 new X509TrustManager() {
                     @Override
                     public void checkClientTrusted(java.security.cert.X509Certificate[] chain,
-                                                   String authType) throws CertificateException {
+                                                   String authType) {
                         // Noop.
                     }
 
                     @Override
                     public void checkServerTrusted(java.security.cert.X509Certificate[] chain,
-                                                   String authType) throws CertificateException {
+                                                   String authType) {
                         // Noop.
                     }
 
@@ -108,7 +105,7 @@ public class RetrofitServiceGenerator {
         };
 
         // Install the all-trusting trust manager
-        SSLContext sslContext = null;
+        SSLContext sslContext;
         try {
             sslContext = SSLContext.getInstance("SSL");
         } catch (NoSuchAlgorithmException e) {
@@ -127,12 +124,7 @@ public class RetrofitServiceGenerator {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         httpClient.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-        httpClient.hostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-            }
-        });
+        httpClient.hostnameVerifier((hostname, session) -> true);
 
         return httpClient;
     }

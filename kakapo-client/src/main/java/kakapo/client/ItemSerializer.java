@@ -1,21 +1,10 @@
 package kakapo.client;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import kakapo.client.model.*;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-
-import kakapo.client.model.BaseHeaderOrContent;
-import kakapo.client.model.ItemDeserializeException;
-import kakapo.client.model.ItemSerializeException;
-import kakapo.client.model.RegularContentV1;
-import kakapo.client.model.RegularHeaderV1;
-import kakapo.client.model.ResponseContentV1;
-import kakapo.client.model.ResponseHeaderV1;
-import kakapo.client.model.UnknownItemTypeException;
 
 public class ItemSerializer {
 
@@ -40,7 +29,7 @@ public class ItemSerializer {
         DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(data));
 
         // First deserialize the item type to figure out how to treat the rest of the data.
-        String itemType = null;
+        String itemType;
         try {
             itemType = inputStream.readUTF();
         } catch (IOException e) {
@@ -48,7 +37,7 @@ public class ItemSerializer {
         }
 
         // Based on the item type, instantiate the appropriate class.
-        Class targetClass = _itemTypeMap.get(itemType);
+        Class<?> targetClass = _itemTypeMap.get(itemType);
 
         // If we didn't find a target class for the item type, this means we can't handle
         // whatever we are trying to deserialize.
@@ -57,7 +46,7 @@ public class ItemSerializer {
         }
 
         // Instantiate the target class.
-        BaseHeaderOrContent result = null;
+        BaseHeaderOrContent result;
         try {
             result = (BaseHeaderOrContent) targetClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
@@ -88,7 +77,7 @@ public class ItemSerializer {
 
         // Serialize the item type. Probably a better way to do this, but this works for now.
         for (String type : _itemTypeMap.keySet()) {
-            Class targetClass = _itemTypeMap.get(type);
+            Class<?> targetClass = _itemTypeMap.get(type);
             if (item.getClass() == targetClass) {
                 try {
                     dataOutputStream.writeUTF(type);

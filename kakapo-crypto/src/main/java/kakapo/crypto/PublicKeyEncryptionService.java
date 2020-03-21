@@ -1,8 +1,6 @@
 package kakapo.crypto;
 
 import com.goterl.lazycode.lazysodium.LazySodium;
-import com.goterl.lazycode.lazysodium.LazySodiumJava;
-import com.goterl.lazycode.lazysodium.SodiumJava;
 import com.goterl.lazycode.lazysodium.exceptions.SodiumException;
 import com.goterl.lazycode.lazysodium.interfaces.AEAD;
 import com.goterl.lazycode.lazysodium.interfaces.Box;

@@ -1,10 +1,6 @@
 package kakapo.api.request;
 
-import kakapo.util.SerializationUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
 
 public class UploadAccountRequest {
 
