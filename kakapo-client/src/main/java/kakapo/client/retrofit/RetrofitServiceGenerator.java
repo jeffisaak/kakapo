@@ -1,16 +1,24 @@
 package kakapo.client.retrofit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import javax.net.ssl.*;
+import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
 public class RetrofitServiceGenerator {
+
+    public static final String CONNECT_TIMEOUT = "CONNECT_TIMEOUT";
+    public static final String READ_TIMEOUT = "READ_TIMEOUT";
+    public static final String WRITE_TIMEOUT = "WRITE_TIMEOUT";
 
     public static <S> S createService(Class<S> serviceClass, String baseUrl, boolean debug) {
 
@@ -21,11 +29,45 @@ public class RetrofitServiceGenerator {
         if (debug) {
             httpClient = buildTrustingHttpClient();
         } else {
-            httpClient = new OkHttpClient
-                    .Builder()
-                    .writeTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(60, TimeUnit.SECONDS);
+            httpClient = new OkHttpClient.Builder();
         }
+
+        // Set up an interceptor for custom timeouts.
+        Interceptor timeoutInterceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+
+                int connectTimeout = chain.connectTimeoutMillis();
+                int readTimeout = chain.readTimeoutMillis();
+                int writeTimeout = chain.writeTimeoutMillis();
+
+                String connectNew = request.header(CONNECT_TIMEOUT);
+                String readNew = request.header(READ_TIMEOUT);
+                String writeNew = request.header(WRITE_TIMEOUT);
+
+                if (connectNew != null) {
+                    connectTimeout = Integer.valueOf(connectNew);
+                }
+                if (readNew != null) {
+                    readTimeout = Integer.valueOf(readNew);
+                }
+                if (writeNew != null) {
+                    writeTimeout = Integer.valueOf(writeNew);
+                }
+
+                Request.Builder builder = request.newBuilder();
+                builder.removeHeader(CONNECT_TIMEOUT);
+                builder.removeHeader(READ_TIMEOUT);
+                builder.removeHeader(WRITE_TIMEOUT);
+
+                return chain
+                        .withConnectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+                        .withReadTimeout(readTimeout, TimeUnit.MILLISECONDS)
+                        .withWriteTimeout(writeTimeout, TimeUnit.MILLISECONDS)
+                        .proceed(builder.build());
+            }
+        };
 
         Retrofit.Builder builder =
                 new Retrofit.Builder()
@@ -78,9 +120,7 @@ public class RetrofitServiceGenerator {
 
         final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         httpClient.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
         httpClient.hostnameVerifier(new HostnameVerifier() {
