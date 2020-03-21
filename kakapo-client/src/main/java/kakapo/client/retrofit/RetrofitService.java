@@ -56,8 +56,8 @@ public interface RetrofitService {
     Call<ServerConfigResponse> serverConfig(@Header("Kakapo-ID") String userGuid,
                                             @Header("Kakapo-API-Key") String apiKey);
 
-//    @Headers({"CONNECT_TIMEOUT:10000", "READ_TIMEOUT:10000", "WRITE_TIMEOUT:10000"})
-    @Headers({"READ_TIMEOUT:60000", "WRITE_TIMEOUT:60000"})
+    // Five minute timeout.
+    @Headers({"READ_TIMEOUT:300000", "WRITE_TIMEOUT:300000"})
     @Multipart
     @POST("/api/v1/item")
     Call<SubmitItemResponse> submitItem(@Header("Kakapo-ID") String userGuid,
