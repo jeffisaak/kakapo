@@ -18,8 +18,9 @@ public interface RetrofitService {
                             @Header("Kakapo-ID") String userGuid,
                             @Header("Kakapo-API-Key") String apiKey);
 
-    @POST("/api/v1/account/preKeys")
-    Call<UploadPreKeysResponse> uploadPreKeys(@Header("Kakapo-ID") String userGuid,
+    @POST("/api/v1/account/{guid}/preKeys")
+    Call<UploadPreKeysResponse> uploadPreKeys(@Path("guid") String targetGuid,
+                                              @Header("Kakapo-ID") String userGuid,
                                               @Header("Kakapo-API-Key") String apiKey,
                                               @Body UploadPreKeysRequest request);
 
@@ -45,10 +46,10 @@ public interface RetrofitService {
 
 //    @PUT("/api/v1/account/upload")
 //    Call<UploadAccountResponse> uploadAccount(@Body UploadAccountRequest request);
-//
+
 //    @PUT("/api/v1/account/download")
 //    Call<DownloadAccountResponse> downloadAccount(@Body DownloadAccountRequest request);
-//
+
     @POST("/api/v1/account/{guid}/blacklist/{guidToBlacklist}")
     Call<Void> blacklist(@Path("guid") String targetUserGuid,
                          @Path("guidToBlacklist") String guidToBlacklist,
