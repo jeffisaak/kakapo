@@ -7,7 +7,7 @@ public class SubmitItemDestination {
     private String _userGuid;
     private Long _preKeyId;
     private String _encryptedGroupKey;
-    private String _nonce;
+    private String _groupKeyNonce;
 
     @JsonProperty("userGuid")
     public String getUserGuid() {
@@ -36,12 +36,12 @@ public class SubmitItemDestination {
         _encryptedGroupKey = encryptedGroupKey;
     }
 
-    @JsonProperty("nonce")
-    public String getNonce() {
-        return _nonce;
+    @JsonProperty("groupKeyNonce")
+    public String getGroupKeyNonce() {
+        return _groupKeyNonce;
     }
 
-    public void setNonce(String nonce) {
-        _nonce = nonce;
+    public void setGroupKeyNonce(String groupKeyNonce) {
+        _groupKeyNonce = groupKeyNonce;
     }
 }
