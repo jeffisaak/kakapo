@@ -49,7 +49,7 @@ public interface RetrofitService {
 //    @PUT("/api/v1/account/download")
 //    Call<DownloadAccountResponse> downloadAccount(@Body DownloadAccountRequest request);
 //
-    @PUT("/api/v1/account/{guid}/blacklist/{guidToBlacklist}")
+    @POST("/api/v1/account/{guid}/blacklist/{guidToBlacklist}")
     Call<Void> blacklist(@Path("guid") String targetUserGuid,
                          @Path("guidToBlacklist") String guidToBlacklist,
                          @Header("Kakapo-ID") String userGuid,
