@@ -50,7 +50,7 @@ public class LibSodiumCrypto implements ICryptoService {
 
     @Override
     public EncryptionResult encryptGroupKey(Key groupKey, Key sharedSecret) throws EncryptFailedException {
-        return encrypt(groupKey.getAsBytes(), sharedSecret.getAsBytes());
+        return encrypt(sharedSecret.getAsBytes(), groupKey.getAsBytes());
     }
 
     @Override
