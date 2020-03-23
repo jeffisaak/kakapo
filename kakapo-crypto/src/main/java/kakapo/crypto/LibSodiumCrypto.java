@@ -49,6 +49,30 @@ public class LibSodiumCrypto implements ICryptoService {
     }
 
     @Override
+    public HashAndEncryptResult encryptSigningKey(Key signingSecretKey, String password)
+            throws EncryptFailedException {
+
+        // Hash the password.
+        HashResult hashResult = hash(password);
+
+        // Encrypt the signing key.
+        EncryptionResult encryptionResult = encrypt(hashResult.getHash(), signingSecretKey.getAsBytes());
+
+        return new HashAndEncryptResult(hashResult, encryptionResult);
+    }
+
+    @Override
+    public byte[] decryptSigningKey(String password, String salt, String nonce, byte[] encryptedSigningKey)
+            throws DecryptFailedException {
+
+        // Hash the password.
+        HashResult hashResult = hash(password, salt);
+
+        // Decrypt.
+        return decrypt(hashResult.getHash(), LazySodium.toBin(nonce), encryptedSigningKey);
+    }
+
+    @Override
     public EncryptionResult encryptGroupKey(Key groupKey, Key sharedSecret) throws EncryptFailedException {
         return encrypt(sharedSecret.getAsBytes(), groupKey.getAsBytes());
     }
@@ -87,14 +111,26 @@ public class LibSodiumCrypto implements ICryptoService {
         return hash(inputBytes);
     }
 
+    private HashResult hash(String input, String salt) {
+        byte[] inputBytes = input.getBytes(StandardCharsets.UTF_8);
+        byte[] saltBytes = input.getBytes(StandardCharsets.UTF_8);
+        return hash(inputBytes);
+    }
+
     private HashResult hash(byte[] input) {
 
-        // Allocate hash byte array and generate a random salt.
-        byte[] hash = new byte[256];
+        // Generate a random salt and hash.
         byte[] salt = _lazySodium.randomBytesBuf(PwHash.SALTBYTES);
+        return hash(input, salt);
+
+    }
+
+    private HashResult hash(byte[] input, byte[] salt) {
+
+        // Allocate hash byte array.
+        byte[] hash = new byte[256];
 
         // Hash the password and salt to get an encryption key.
-        PwHash.Lazy pwHash = (PwHash.Lazy) _lazySodium;
         _lazySodium.cryptoPwHash(hash,
                 hash.length,
                 input,

@@ -6,26 +6,32 @@ import kakapo.crypto.exception.*;
 
 public interface ICryptoService {
 
-    public KeyPair generateSigningKeyPair() throws KeyGenerationException;
+    KeyPair generateSigningKeyPair() throws KeyGenerationException;
 
-    public KeyPair generateKeyExchangeKeypair();
+    KeyPair generateKeyExchangeKeypair();
 
-    public Key generateGroupKey();
+    Key generateGroupKey();
 
-    public byte[] calculateSharedSecret(Key mySecretKey, Key preKeyPublicKey);
+    byte[] calculateSharedSecret(Key mySecretKey, Key preKeyPublicKey);
 
-    public EncryptionResult encryptGroupKey(Key groupKey, Key sharedSecret) throws EncryptFailedException;
+    EncryptionResult encryptGroupKey(Key groupKey, Key sharedSecret) throws EncryptFailedException;
 
-    public byte[] decryptGroupKey(Key sharedSecret, byte[] groupKeyNonce, byte[] encryptedGroupKey)
+    byte[] decryptGroupKey(Key sharedSecret, byte[] groupKeyNonce, byte[] encryptedGroupKey)
             throws DecryptFailedException;
 
-    public EncryptionResult encryptShareData(byte[] data, Key groupSecret) throws EncryptFailedException;
+    EncryptionResult encryptShareData(byte[] data, Key groupSecret) throws EncryptFailedException;
 
-    public byte[] decryptShareData(byte[] encryptedData, byte[] nonce, Key groupSecret) throws DecryptFailedException;
+    byte[] decryptShareData(byte[] encryptedData, byte[] nonce, Key groupSecret) throws DecryptFailedException;
 
-    public byte[] signPreKey(Key preKeyPublicKey, Key signingSecretKey) throws SignMessageException;
+    HashAndEncryptResult encryptSigningKey(Key signingSecretKey, String password)
+            throws EncryptFailedException;
 
-    public byte[] verifyPreKey(byte[] signedPreKeyPublicKey, Key signingPublicKey)
+    byte[] decryptSigningKey(String password, String salt, String nonce, byte[] encryptedSigningKey)
+            throws DecryptFailedException;
+
+    byte[] signPreKey(Key preKeyPublicKey, Key signingSecretKey) throws SignMessageException;
+
+    byte[] verifyPreKey(byte[] signedPreKeyPublicKey, Key signingPublicKey)
             throws SignatureVerificationFailedException;
 
 }
