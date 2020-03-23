@@ -113,7 +113,7 @@ public class LibSodiumCrypto implements ICryptoService {
 
     private HashResult hash(String input, String salt) {
         byte[] inputBytes = input.getBytes(StandardCharsets.UTF_8);
-        byte[] saltBytes = input.getBytes(StandardCharsets.UTF_8);
+        byte[] saltBytes = LazySodium.toBin(salt);
         return hash(inputBytes, saltBytes);
     }
 
