@@ -44,6 +44,22 @@ public interface RetrofitService {
                                                 @Header("Kakapo-ID") String userGuid,
                                                 @Header("Kakapo-API-Key") String apiKey);
 
+    // Five minute timeout.
+    @Headers({"READ_TIMEOUT:300000", "WRITE_TIMEOUT:300000"})
+    @Multipart
+    @POST("/api/v1/account/{guid}/backup/{versionNumber}")
+    Call<Void> uploadAccountBackup(@Path("guid") String targetUserGuid,
+                                   @Path("versionNumber") Long versionNumber,
+                                   @Header("Kakapo-ID") String userGuid,
+                                   @Header("Kakapo-API-Key") String apiKey,
+                                   @Part MultipartBody.Part data);
+
+    @Streaming
+    @GET("/api/v1/account/{guid}/backup")
+    Call<ResponseBody> streamAccountBackup(@Path("guid") String targetUserGuid,
+                                           @Header("Kakapo-ID") String userGuid,
+                                           @Header("Kakapo-API-Key") String apiKey);
+
 //    @PUT("/api/v1/account/upload")
 //    Call<UploadAccountResponse> uploadAccount(@Body UploadAccountRequest request);
 
