@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GetBackupVersionResponse {
 
-    public static GetBackupVersionResponse success(long backupVersion) {
+    public static GetBackupVersionResponse success(Long backupVersion) {
         GetBackupVersionResponse result = new GetBackupVersionResponse();
         result.setBackupVersion(backupVersion);
         return result;
     }
 
-    private long _backupVersion;
+    private Long _backupVersion;
 
     @JsonProperty("backupVersion")
-    public long getBackupVersion() {
+    public Long getBackupVersion() {
         return _backupVersion;
     }
 
-    public void setBackupVersion(long backupVersion) {
+    public void setBackupVersion(Long backupVersion) {
         _backupVersion = backupVersion;
     }
 }
