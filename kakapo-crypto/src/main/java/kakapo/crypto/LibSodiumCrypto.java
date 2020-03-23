@@ -139,6 +139,8 @@ public class LibSodiumCrypto implements ICryptoService {
                 PwHash.Alg.getDefault());
 
         // Return the result.
+        System.out.println("Salt: " + LazySodium.toHex(salt));
+        System.out.println("Hash: " + LazySodium.toHex(hash));
         return new HashResult(hash, salt);
     }
 
