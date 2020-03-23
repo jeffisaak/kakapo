@@ -73,6 +73,30 @@ public class LibSodiumCrypto implements ICryptoService {
     }
 
     @Override
+    public HashAndEncryptResult encryptAccountData(byte[] accountData, String password)
+            throws EncryptFailedException {
+
+        // Hash the password.
+        HashResult hashResult = hash(password);
+
+        // Encrypt the signing key.
+        EncryptionResult encryptionResult = encrypt(hashResult.getHash(), accountData);
+
+        return new HashAndEncryptResult(hashResult, encryptionResult);
+    }
+
+    @Override
+    public byte[] decryptAccountData(String password, String salt, String nonce, byte[] encryptedAccountData)
+            throws DecryptFailedException {
+
+        // Hash the password.
+        HashResult hashResult = hash(password, salt);
+
+        // Decrypt.
+        return decrypt(hashResult.getHash(), LazySodium.toBin(nonce), encryptedAccountData);
+    }
+
+    @Override
     public EncryptionResult encryptGroupKey(Key groupKey, Key sharedSecret) throws EncryptFailedException {
         return encrypt(sharedSecret.getAsBytes(), groupKey.getAsBytes());
     }
@@ -139,8 +163,6 @@ public class LibSodiumCrypto implements ICryptoService {
                 PwHash.Alg.getDefault());
 
         // Return the result.
-        System.out.println("Salt: " + LazySodium.toHex(salt));
-        System.out.println("Hash: " + LazySodium.toHex(hash));
         return new HashResult(hash, salt);
     }
 

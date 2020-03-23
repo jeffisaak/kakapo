@@ -29,6 +29,11 @@ public interface ICryptoService {
     byte[] decryptSigningKey(String password, String salt, String nonce, byte[] encryptedSigningKey)
             throws DecryptFailedException;
 
+    HashAndEncryptResult encryptAccountData(byte[] accountData, String password) throws EncryptFailedException;
+
+    byte[] decryptAccountData(String password, String salt, String nonce, byte[] encryptedAccountData)
+            throws DecryptFailedException;
+
     byte[] signPreKey(Key preKeyPublicKey, Key signingSecretKey) throws SignMessageException;
 
     byte[] verifyPreKey(byte[] signedPreKeyPublicKey, Key signingPublicKey)
