@@ -54,9 +54,9 @@ public class LibSodiumCrypto implements ICryptoService {
     }
 
     @Override
-    public byte[] decryptGroupKey(Key sharedSecret, byte[] groupKeyNonce, Key encryptedGroupKey)
+    public byte[] decryptGroupKey(Key sharedSecret, byte[] groupKeyNonce, byte[] encryptedGroupKey)
             throws DecryptFailedException {
-        return decrypt(sharedSecret.getAsBytes(), groupKeyNonce, encryptedGroupKey.getAsBytes());
+        return decrypt(sharedSecret.getAsBytes(), groupKeyNonce, encryptedGroupKey);
     }
 
     @Override

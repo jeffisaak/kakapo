@@ -16,7 +16,7 @@ public interface ICryptoService {
 
     public EncryptionResult encryptGroupKey(Key groupKey, Key sharedSecret) throws EncryptFailedException;
 
-    public byte[] decryptGroupKey(Key sharedSecret, byte[] groupKeyNonce, Key encryptedGroupKey)
+    public byte[] decryptGroupKey(Key sharedSecret, byte[] groupKeyNonce, byte[] encryptedGroupKey)
             throws DecryptFailedException;
 
     public EncryptionResult encryptShareData(byte[] data, Key groupSecret) throws EncryptFailedException;
