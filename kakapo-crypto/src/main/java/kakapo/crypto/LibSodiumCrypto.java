@@ -12,7 +12,7 @@ import kakapo.crypto.exception.*;
 
 import java.nio.charset.StandardCharsets;
 
-public class LibSodiumCrypto {
+public class LibSodiumCrypto implements ICryptoService {
 
     private LazySodium _lazySodium;
 
@@ -20,6 +20,7 @@ public class LibSodiumCrypto {
         _lazySodium = lazySodium;
     }
 
+    @Override
     public KeyPair generateSigningKeyPair() throws KeyGenerationException {
         try {
             return _lazySodium.cryptoSignKeypair();
@@ -28,14 +29,17 @@ public class LibSodiumCrypto {
         }
     }
 
+    @Override
     public KeyPair generateKeyExchangeKeypair() {
         return _lazySodium.cryptoKxKeypair();
     }
 
+    @Override
     public Key generateGroupKey() {
         return _lazySodium.cryptoSecretBoxKeygen();
     }
 
+    @Override
     public byte[] calculateSharedSecret(Key mySecretKey, Key preKeyPublicKey) {
         byte[] sharedSecret = new byte[32];
         _lazySodium.cryptoScalarMult(sharedSecret,
@@ -44,27 +48,33 @@ public class LibSodiumCrypto {
         return sharedSecret;
     }
 
+    @Override
     public EncryptionResult encryptGroupKey(Key groupKey, Key sharedSecret) throws EncryptFailedException {
         return encrypt(groupKey.getAsBytes(), sharedSecret.getAsBytes());
     }
 
+    @Override
     public byte[] decryptGroupKey(Key sharedSecret, byte[] groupKeyNonce, Key encryptedGroupKey)
             throws DecryptFailedException {
         return decrypt(sharedSecret.getAsBytes(), groupKeyNonce, encryptedGroupKey.getAsBytes());
     }
 
+    @Override
     public EncryptionResult encryptShareData(byte[] data, Key groupSecret) throws EncryptFailedException {
         return encrypt(data, null, groupSecret.getAsBytes());
     }
 
+    @Override
     public byte[] decryptShareData(byte[] encryptedData, byte[] nonce, Key groupSecret) throws DecryptFailedException {
         return decrypt(encryptedData, null, nonce, groupSecret.getAsBytes());
     }
 
+    @Override
     public byte[] signPreKey(Key preKeyPublicKey, Key signingSecretKey) throws SignMessageException {
         return sign(preKeyPublicKey.getAsBytes(), signingSecretKey);
     }
 
+    @Override
     public byte[] verifyPreKey(byte[] signedPreKeyPublicKey, Key signingPublicKey)
             throws SignatureVerificationFailedException {
         return verify(signedPreKeyPublicKey, signingPublicKey);
