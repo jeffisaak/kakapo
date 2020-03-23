@@ -54,6 +54,11 @@ public interface RetrofitService {
                                    @Header("Kakapo-API-Key") String apiKey,
                                    @Part MultipartBody.Part data);
 
+    @GET("/api/v1/account/{guid}/backup/version")
+    Call<GetBackupVersionResponse> getAccountBackupVersion(@Path("guid") String targetGuid,
+                                                           @Header("Kakapo-ID") String userGuid,
+                                                           @Header("Kakapo-API-Key") String apiKey);
+
     @Streaming
     @GET("/api/v1/account/{guid}/backup")
     Call<ResponseBody> streamAccountBackup(@Path("guid") String targetUserGuid,
