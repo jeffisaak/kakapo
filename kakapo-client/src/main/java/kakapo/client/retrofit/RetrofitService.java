@@ -65,12 +65,6 @@ public interface RetrofitService {
                                            @Header("Kakapo-ID") String userGuid,
                                            @Header("Kakapo-API-Key") String apiKey);
 
-//    @PUT("/api/v1/account/upload")
-//    Call<UploadAccountResponse> uploadAccount(@Body UploadAccountRequest request);
-
-//    @PUT("/api/v1/account/download")
-//    Call<DownloadAccountResponse> downloadAccount(@Body DownloadAccountRequest request);
-
     @POST("/api/v1/account/{guid}/blacklist/{guidToBlacklist}")
     Call<Void> blacklist(@Path("guid") String targetUserGuid,
                          @Path("guidToBlacklist") String guidToBlacklist,
