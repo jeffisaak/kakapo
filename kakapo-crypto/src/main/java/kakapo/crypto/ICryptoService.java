@@ -31,6 +31,9 @@ public interface ICryptoService {
 
     HashAndEncryptResult encryptAccountData(byte[] accountData, String password) throws EncryptFailedException;
 
+    HashAndEncryptResult encryptAccountData(byte[] accountData, String salt, String password)
+        throws EncryptFailedException;
+
     byte[] decryptAccountData(String password, String salt, String nonce, byte[] encryptedAccountData)
             throws DecryptFailedException;
 

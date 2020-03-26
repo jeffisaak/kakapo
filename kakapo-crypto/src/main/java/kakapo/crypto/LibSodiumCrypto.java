@@ -73,6 +73,19 @@ public class LibSodiumCrypto implements ICryptoService {
     }
 
     @Override
+    public HashAndEncryptResult encryptAccountData(byte[] accountData, String salt, String password)
+            throws EncryptFailedException {
+
+        // Hash the password.
+        HashResult hashResult = hash(password, salt);
+
+        // Encrypt the signing key.
+        EncryptionResult encryptionResult = encrypt(hashResult.getHash(), accountData);
+
+        return new HashAndEncryptResult(hashResult, encryptionResult);
+    }
+
+    @Override
     public HashAndEncryptResult encryptAccountData(byte[] accountData, String password)
             throws EncryptFailedException {
 
