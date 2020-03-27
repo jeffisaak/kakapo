@@ -163,7 +163,7 @@ public class LibSodiumCrypto implements ICryptoService {
     private HashResult hash(byte[] input, byte[] salt) {
 
         // Allocate hash byte array.
-        byte[] hash = new byte[256];
+        byte[] hash = new byte[SecretBox.KEYBYTES];
 
         // Hash the password and salt to get an encryption key.
         _lazySodium.cryptoPwHash(hash,
