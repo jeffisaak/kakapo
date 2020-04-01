@@ -7,19 +7,19 @@ public class ServerConfigResponse {
     public static ServerConfigResponse success(long quotaPerUser,
                                                long headerSizeLimit,
                                                long contentSizeLimit,
-                                               long uploadedAccountSizeLimit) {
+                                               long accountBackupSizeLimit) {
         ServerConfigResponse result = new ServerConfigResponse();
         result.setQuotaPerUser(quotaPerUser);
         result.setHeaderSizeLimit(headerSizeLimit);
         result.setContentSizeLimit(contentSizeLimit);
-        result.setUploadedAccountSizeLimit(uploadedAccountSizeLimit);
+        result.setAccountBackupSizeLimit(accountBackupSizeLimit);
         return result;
     }
 
     private long _quotaPerUser;
     private long _headerSizeLimit;
     private long _contentSizeLimit;
-    private long _uploadedAccountSizeLimit;
+    private long _accountBackupSizeLimit;
 
     @JsonProperty("quotaPerUser")
     public long getQuotaPerUser() {
@@ -48,12 +48,12 @@ public class ServerConfigResponse {
         _contentSizeLimit = contentSizeLimit;
     }
 
-    @JsonProperty("uploadedAccountSizeLimit")
-    public long getUploadedAccountSizeLimit() {
-        return _uploadedAccountSizeLimit;
+    @JsonProperty("accountBackupSizeLimit")
+    public long getAccountBackupSizeLimit() {
+        return _accountBackupSizeLimit;
     }
 
-    public void setUploadedAccountSizeLimit(long uploadedAccountSizeLimit) {
-        _uploadedAccountSizeLimit = uploadedAccountSizeLimit;
+    public void setAccountBackupSizeLimit(long accountBackupSizeLimit) {
+        _accountBackupSizeLimit = accountBackupSizeLimit;
     }
 }
