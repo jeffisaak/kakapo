@@ -5,7 +5,7 @@
 * [Acronyms and Initialisms](#acronyms-and-initialisms)
 * [General Information](#general-information)
 * [Hex Strings](#hex-strings)
-* [Crypto](crypto)
+* [Crypto](#crypto)
 * [Rate Limiting](#rate-limiting)
 * [User-related endpoints](#user-related-endpoints)
 * [Server-related endpoints](#server-related-endpoints)
@@ -155,7 +155,7 @@ Response Headers:
 
 Response Body:
 
-```json
+```
 {
 	"idToKeyMap" : {
 		"<keyId>": "<Hex string representation of signed prekey public key>",
@@ -208,7 +208,7 @@ Response Headers:
 
 Response Body:
 
-```json
+```
 {
 	"preKeyId" : "<The unique ID of the prekey>",
 	"signedPreKey" : "<Hex string representation of the prekey signed by the owner's private signing key>"

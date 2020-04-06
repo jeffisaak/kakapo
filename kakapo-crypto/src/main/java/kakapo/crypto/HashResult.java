@@ -1,8 +1,8 @@
 package kakapo.crypto;
 
 public class HashResult {
-    private byte[] _hash;
-    private byte[] _salt;
+    private final byte[] _hash;
+    private final byte[] _salt;
 
     public HashResult(byte[] hash, byte[] salt) {
         _hash = hash;

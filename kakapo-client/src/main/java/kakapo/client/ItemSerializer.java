@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ItemSerializer {
 
-    private Map<String, Class<? extends BaseHeaderOrContent>> _itemTypeMap = new HashMap<>();
+    private final Map<String, Class<? extends BaseHeaderOrContent>> _itemTypeMap = new HashMap<>();
 
     public ItemSerializer() {
 

@@ -12,7 +12,7 @@ Kakapo is a privacy-centric social network. Kakapo's API is open, so anybody can
 
 In order to declare a dependency on kakapo or the subprojects, first add jitpack to your repositories:
 
-```groovy
+```
 repositories {
     maven { url 'https://jitpack.io' }
 }
@@ -20,7 +20,7 @@ repositories {
 
 Then add either the individual dependencies:
 
-```groovy
+```
 dependencies {
     implementation 'com.github.jeffisaak.kakapo:kakapo-api:0.1.0'
     implementation 'com.github.jeffisaak.kakapo:kakapo-crypto:0.1.0'
@@ -31,7 +31,7 @@ dependencies {
 
 Or all four at once:
 
-```groovy
+```
 dependencies {
     implementation 'com.github.jeffisaak:kakapo:0.1.0'
 }

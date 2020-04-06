@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 
 public class LibSodiumCrypto implements ICryptoService {
 
-    private LazySodium _lazySodium;
+    private final LazySodium _lazySodium;
 
     public LibSodiumCrypto(LazySodium lazySodium) {
         _lazySodium = lazySodium;

@@ -2,8 +2,8 @@ package kakapo.crypto;
 
 public class EncryptionResult {
 
-    private byte[] _ciphertext;
-    private byte[] _nonce;
+    private final byte[] _ciphertext;
+    private final byte[] _nonce;
 
     public EncryptionResult(byte[] ciphertext, byte[] nonce) {
         _ciphertext = ciphertext;

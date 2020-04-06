@@ -2,8 +2,8 @@ package kakapo.crypto;
 
 public class HashAndEncryptResult {
 
-    private HashResult _hashResult;
-    private EncryptionResult _encryptionResult;
+    private final HashResult _hashResult;
+    private final EncryptionResult _encryptionResult;
 
     public HashAndEncryptResult(HashResult hashResult, EncryptionResult encryptionResult) {
         _hashResult = hashResult;
