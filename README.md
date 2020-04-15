@@ -22,10 +22,10 @@ Then add either the individual dependencies:
 
 ```
 dependencies {
-    implementation 'com.github.jeffisaak.kakapo:kakapo-api:0.1.0'
-    implementation 'com.github.jeffisaak.kakapo:kakapo-crypto:0.1.0'
-    implementation 'com.github.jeffisaak.kakapo:kakapo-util:0.1.0'
-    implementation 'com.github.jeffisaak.kakapo:kakapo-client:0.1.0'
+    implementation 'com.github.jeffisaak.kakapo:kakapo-api:0.1.1'
+    implementation 'com.github.jeffisaak.kakapo:kakapo-crypto:0.1.1'
+    implementation 'com.github.jeffisaak.kakapo:kakapo-util:0.1.1'
+    implementation 'com.github.jeffisaak.kakapo:kakapo-client:0.1.1'
 }
 ```
 
@@ -33,7 +33,7 @@ Or all four at once:
 
 ```
 dependencies {
-    implementation 'com.github.jeffisaak:kakapo:0.1.0'
+    implementation 'com.github.jeffisaak:kakapo:0.1.1'
 }
 ```
 
