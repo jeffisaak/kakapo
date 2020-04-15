@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FetchPublicKeyResponse {
 
-    public static FetchPublicKeyResponse success(byte[] publicKeyRings) {
+    public static FetchPublicKeyResponse success(String signingPublicKey) {
         FetchPublicKeyResponse result = new FetchPublicKeyResponse();
-        result.setPublicKeyRings(publicKeyRings);
+        result.setSigningPublicKey(signingPublicKey);
         return result;
     }
 
-    private byte[] _publicKeyRings;
+    private String _signingPublicKey;
 
-    @JsonProperty("pkr")
-    public byte[] getPublicKeyRings() {
-        return _publicKeyRings;
+    @JsonProperty("signingPublicKey")
+    public String getSigningPublicKey() {
+        return _signingPublicKey;
     }
 
-    public void setPublicKeyRings(byte[] publicKeyRings) {
-        _publicKeyRings = publicKeyRings;
+    public void setSigningPublicKey(String signingPublicKey) {
+        _signingPublicKey = signingPublicKey;
     }
 }

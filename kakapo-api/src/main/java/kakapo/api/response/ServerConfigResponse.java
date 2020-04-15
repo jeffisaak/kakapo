@@ -4,34 +4,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ServerConfigResponse {
 
-    public static ServerConfigResponse success(long maxPublicKeyLength, long quotaPerUser,
-                                               long headerSizeLimit, long contentSizeLimit,
-                                               long uploadedAccountSizeLimit) {
+    public static ServerConfigResponse success(long quotaPerUser,
+                                               long headerSizeLimit,
+                                               long contentSizeLimit,
+                                               long accountBackupSizeLimit) {
         ServerConfigResponse result = new ServerConfigResponse();
-        result.setMaxPublicKeyLength(maxPublicKeyLength);
         result.setQuotaPerUser(quotaPerUser);
         result.setHeaderSizeLimit(headerSizeLimit);
         result.setContentSizeLimit(contentSizeLimit);
-        result.setUploadedAccountSizeLimit(uploadedAccountSizeLimit);
+        result.setAccountBackupSizeLimit(accountBackupSizeLimit);
         return result;
     }
 
-    private long _maxPublicKeyLength;
     private long _quotaPerUser;
     private long _headerSizeLimit;
     private long _contentSizeLimit;
-    private long _uploadedAccountSizeLimit;
+    private long _accountBackupSizeLimit;
 
-    @JsonProperty("mpkl")
-    public long getMaxPublicKeyLength() {
-        return _maxPublicKeyLength;
-    }
-
-    public void setMaxPublicKeyLength(long maxPublicKeyLength) {
-        _maxPublicKeyLength = maxPublicKeyLength;
-    }
-
-    @JsonProperty("qpu")
+    @JsonProperty("quotaPerUser")
     public long getQuotaPerUser() {
         return _quotaPerUser;
     }
@@ -40,7 +30,7 @@ public class ServerConfigResponse {
         _quotaPerUser = quotaPerUser;
     }
 
-    @JsonProperty("hsl")
+    @JsonProperty("headerSizeLimit")
     public long getHeaderSizeLimit() {
         return _headerSizeLimit;
     }
@@ -49,7 +39,7 @@ public class ServerConfigResponse {
         _headerSizeLimit = headerSizeLimit;
     }
 
-    @JsonProperty("csl")
+    @JsonProperty("contentSizeLimit")
     public long getContentSizeLimit() {
         return _contentSizeLimit;
     }
@@ -58,12 +48,12 @@ public class ServerConfigResponse {
         _contentSizeLimit = contentSizeLimit;
     }
 
-    @JsonProperty("uasl")
-    public long getUploadedAccountSizeLimit() {
-        return _uploadedAccountSizeLimit;
+    @JsonProperty("accountBackupSizeLimit")
+    public long getAccountBackupSizeLimit() {
+        return _accountBackupSizeLimit;
     }
 
-    public void setUploadedAccountSizeLimit(long uploadedAccountSizeLimit) {
-        _uploadedAccountSizeLimit = uploadedAccountSizeLimit;
+    public void setAccountBackupSizeLimit(long accountBackupSizeLimit) {
+        _accountBackupSizeLimit = accountBackupSizeLimit;
     }
 }

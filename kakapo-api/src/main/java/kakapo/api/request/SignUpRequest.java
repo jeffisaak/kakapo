@@ -4,24 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SignUpRequest {
 
-    private String _guid;
-    private byte[] _publicKeys;
+    private String _signingPublicKey;
 
-    @JsonProperty("guid")
-    public String getGuid() {
-        return _guid;
+    @JsonProperty("signingPublicKey")
+    public String getSigningPublicKey() {
+        return _signingPublicKey;
     }
 
-    public void setGuid(String guid) {
-        _guid = guid;
-    }
-
-    @JsonProperty("pk")
-    public byte[] getPublicKeys() {
-        return _publicKeys;
-    }
-
-    public void setPublicKeys(byte[] publicKeys) {
-        _publicKeys = publicKeys;
+    public void setSigningPublicKey(String signingPublicKey) {
+        _signingPublicKey = signingPublicKey;
     }
 }

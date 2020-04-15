@@ -14,7 +14,7 @@ public class QuotaResponse {
     private int _usedQuota;
     private int _maxQuota;
 
-    @JsonProperty("uq")
+    @JsonProperty("usedQuota")
     public int getUsedQuota() {
         return _usedQuota;
     }
@@ -23,7 +23,7 @@ public class QuotaResponse {
         _usedQuota = usedQuota;
     }
 
-    @JsonProperty("mq")
+    @JsonProperty("maxQuota")
     public int getMaxQuota() {
         return _maxQuota;
     }

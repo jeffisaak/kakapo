@@ -10,11 +10,15 @@ public class ShareItem {
     private boolean _markedAsDeleted;
     private boolean _blacklisted;
     private long _itemTimestamp;
-    private byte[] _encryptedHeader;
-    private byte[] _encryptedContent;
+    private String _encryptedHeader;
+    private String _headerNonce;
     private long _childCount;
+    private long _preKeyId;
+    private String _keyExchangePublicKey;
+    private String _encryptedGroupKey;
+    private String _groupKeyNonce;
 
-    @JsonProperty("r")
+    @JsonProperty("remoteId")
     public long getRemoteId() {
         return _remoteId;
     }
@@ -23,7 +27,7 @@ public class ShareItem {
         _remoteId = remoteId;
     }
 
-    @JsonProperty("og")
+    @JsonProperty("ownerGuid")
     public String getOwnerGuid() {
         return _ownerGuid;
     }
@@ -32,7 +36,7 @@ public class ShareItem {
         _ownerGuid = ownerGuid;
     }
 
-    @JsonProperty("pir")
+    @JsonProperty("parentRemoteId")
     public Long getParentItemRemoteId() {
         return _parentItemRemoteId;
     }
@@ -41,7 +45,7 @@ public class ShareItem {
         _parentItemRemoteId = parentItemRemoteId;
     }
 
-    @JsonProperty("mad")
+    @JsonProperty("markedAsDeleted")
     public boolean isMarkedAsDeleted() {
         return _markedAsDeleted;
     }
@@ -50,7 +54,7 @@ public class ShareItem {
         _markedAsDeleted = markedAsDeleted;
     }
 
-    @JsonProperty("bl")
+    @JsonProperty("blacklisted")
     public boolean isBlacklisted() {
         return _blacklisted;
     }
@@ -59,7 +63,7 @@ public class ShareItem {
         _blacklisted = blacklisted;
     }
 
-    @JsonProperty("it")
+    @JsonProperty("itemTimestamp")
     public long getItemTimestamp() {
         return _itemTimestamp;
     }
@@ -68,30 +72,66 @@ public class ShareItem {
         _itemTimestamp = itemTimestamp;
     }
 
-    @JsonProperty("eh")
-    public byte[] getEncryptedHeader() {
+    @JsonProperty("encryptedHeader")
+    public String getEncryptedHeader() {
         return _encryptedHeader;
     }
 
-    public void setEncryptedHeader(byte[] encryptedHeader) {
+    public void setEncryptedHeader(String encryptedHeader) {
         _encryptedHeader = encryptedHeader;
     }
 
-    @JsonProperty("ec")
-    public byte[] getEncryptedContent() {
-        return _encryptedContent;
+    @JsonProperty("headerNonce")
+    public String getHeaderNonce() {
+        return _headerNonce;
     }
 
-    public void setEncryptedContent(byte[] encryptedContent) {
-        _encryptedContent = encryptedContent;
+    public void setHeaderNonce(String headerNonce) {
+        _headerNonce = headerNonce;
     }
 
-    @JsonProperty("cc")
+    @JsonProperty("childCount")
     public long getChildCount() {
         return _childCount;
     }
 
     public void setChildCount(long childCount) {
         _childCount = childCount;
+    }
+
+    @JsonProperty("preKeyId")
+    public long getPreKeyId() {
+        return _preKeyId;
+    }
+
+    public void setPreKeyId(long preKeyId) {
+        _preKeyId = preKeyId;
+    }
+
+    @JsonProperty("keyExchangePublicKey")
+    public String getKeyExchangePublicKey() {
+        return _keyExchangePublicKey;
+    }
+
+    public void setKeyExchangePublicKey(String keyExchangePublicKey) {
+        _keyExchangePublicKey = keyExchangePublicKey;
+    }
+
+    @JsonProperty("encryptedGroupKey")
+    public String getEncryptedGroupKey() {
+        return _encryptedGroupKey;
+    }
+
+    public void setEncryptedGroupKey(String encryptedGroupKey) {
+        _encryptedGroupKey = encryptedGroupKey;
+    }
+
+    @JsonProperty("groupKeyNonce")
+    public String getGroupKeyNonce() {
+        return _groupKeyNonce;
+    }
+
+    public void setGroupKeyNonce(String nonce) {
+        _groupKeyNonce = nonce;
     }
 }

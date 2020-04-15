@@ -1,6 +1,5 @@
 package kakapo.util;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -53,13 +52,8 @@ public class HashUtil {
      * @return The hashed string, or null if an exception occurred.
      */
     public static String md5(String input) {
-        try {
-            byte[] bytes = input.getBytes("UTF-8");
-            return md5(bytes);
-        } catch (UnsupportedEncodingException e) {
-            // Swallow the exception.
-            return null;
-        }
+        byte[] bytes = input.getBytes(StandardCharsets.UTF_8);
+        return md5(bytes);
     }
 
     /**
@@ -97,7 +91,7 @@ public class HashUtil {
      */
     private static byte[] hashToByteArray(byte[] input, String algorithm) {
         try {
-            MessageDigest digest = null;
+            MessageDigest digest;
             digest = MessageDigest.getInstance(algorithm);
             digest.reset();
             return digest.digest(input);

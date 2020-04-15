@@ -15,7 +15,7 @@ public class FetchRecipientsResponse {
 
     private List<ShareItemRecipient> _recipients;
 
-    @JsonProperty("r")
+    @JsonProperty("recipients")
     public List<ShareItemRecipient> getRecipients() {
         return _recipients;
     }

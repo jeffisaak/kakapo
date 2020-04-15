@@ -1,40 +1,60 @@
 package kakapo.api.request;
 
-import kakapo.util.SerializationUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import kakapo.api.model.SubmitItemDestination;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
-public class SubmitItemRequest extends SignedRequest {
+public class SubmitItemRequest {
 
-    private Long _parentItemRemoteId;
-    private Collection<String> _sharedWithGuids;
+    private String _headerNonce;
+    private String _contentNonce;
+    private List<SubmitItemDestination> _destinations;
+    private String _keyExchangePublicKey;
+    private Long _parentRemoteItemId;
 
-    @Override
-    protected void serializeMessageDigest(DataOutputStream outputStream) throws IOException {
-        SerializationUtil.writeOptionalLong(outputStream, _parentItemRemoteId);
-        for (String sharedWithGuid : _sharedWithGuids) {
-            outputStream.writeUTF(sharedWithGuid);
-        }
+    @JsonProperty("headerNonce")
+    public String getHeaderNonce() {
+        return _headerNonce;
     }
 
-    @JsonProperty("pir")
-    public Long getParentItemRemoteId() {
-        return _parentItemRemoteId;
+    public void setHeaderNonce(String headerNonce) {
+        _headerNonce = headerNonce;
     }
 
-    public void setParentItemRemoteId(Long parentItemRemoteId) {
-        _parentItemRemoteId = parentItemRemoteId;
+    @JsonProperty("contentNonce")
+    public String getContentNonce() {
+        return _contentNonce;
     }
 
-    @JsonProperty("swg")
-    public Collection<String> getSharedWithGuids() {
-        return _sharedWithGuids;
+    public void setContentNonce(String contentNonce) {
+        _contentNonce = contentNonce;
     }
 
-    public void setSharedWithGuids(Collection<String> sharedWithGuids) {
-        _sharedWithGuids = sharedWithGuids;
+    @JsonProperty("destinations")
+    public List<SubmitItemDestination> getDestinations() {
+        return _destinations;
+    }
+
+    public void setDestinations(List<SubmitItemDestination> destinations) {
+        _destinations = destinations;
+    }
+
+    @JsonProperty("keyExchangePublicKey")
+    public String getKeyExchangePublicKey() {
+        return _keyExchangePublicKey;
+    }
+
+    public void setKeyExchangePublicKey(String keyExchangePublicKey) {
+        _keyExchangePublicKey = keyExchangePublicKey;
+    }
+
+    @JsonProperty("parentRemoteItemId")
+    public Long getParentRemoteItemId() {
+        return _parentRemoteItemId;
+    }
+
+    public void setParentRemoteItemId(Long parentRemoteItemId) {
+        _parentRemoteItemId = parentRemoteItemId;
     }
 }

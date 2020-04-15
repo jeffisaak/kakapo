@@ -17,7 +17,7 @@ public class FetchItemHeadersResponse {
     private List<ShareItem> _shareItems;
     private Long _remainingItemCount;
 
-    @JsonProperty("si")
+    @JsonProperty("shareItems")
     public List<ShareItem> getShareItems() {
         return _shareItems;
     }
@@ -26,7 +26,7 @@ public class FetchItemHeadersResponse {
         _shareItems = shareItems;
     }
 
-    @JsonProperty("ric")
+    @JsonProperty("remainingItemCount")
     public Long getRemainingItemCount() {
         return _remainingItemCount;
     }
