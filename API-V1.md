@@ -35,13 +35,13 @@ In many cases keys, salts, and nonces are represented as strings. These are typi
 
 ## Crypto
 
-Kakapo makes use of Libsodium (well, more specifically, the LazySodium Java bindings for Libsodium.
+Kakapo makes use of Libsodium (well, more specifically, the LazySodium Java bindings for Libsodium).
 
 You may see the LibSodiumCrypto class in the kakapo repository for details regarding the specific libsodium calls that are used, but a bit of an explanation regarding the key agreement mechanism is warranted here.
 
 ### Key agreement mechanism
 
-As the communication in Kakapo is asynchronous, we need a way to allow key agreement to happen with the recipient(s) offline. We do this through "prekeys" (thank you, Moxie, for explaining this in a way I can understand).
+As the communication in Kakapo is asynchronous, we need a way to allow key agreement to happen with the recipient(s) offline. We do this through "prekeys" (thank you Moxie for explaining this in a way I can understand).
 
 Every user, when connected to the Kakapo server, must generate and upload a set of prekeys. When someone wants to share something with one or more users, they must get prekeys for those users from the server. Using those prekeys, and their own private key that they generate, they generate shared secrets with each recipient.
 
@@ -612,46 +612,19 @@ Request Headers:
 
 Response Headers:
 
-TODO: I am here.
-
 - **Kakapo-Pre-Keys-Remaining**: The number of unused prekeys remaining on the server.
-- **Kakapo-Pre-Key-ID**: The ID of the prekey
-- **Kakapo-Key-Exchange-Public-Key**: 
-- **Kakapo-Nonce**:
-- **Kakapo-Encrypted-Group-Key**:
-- **Kakapo-Content-Nonce**:
-
+- **Kakapo-Pre-Key-ID**: The ID of the prekey to use to perform the key exhcnage with.
+- **Kakapo-Key-Exchange-Public-Key**: The public key to use to perform the key exchange.
+- **Kakapo-Nonce**: The nonce to use when decrypting the encrypted group key.
+- **Kakapo-Encrypted-Group-Key**: The encrypted group key.
+- **Kakapo-Content-Nonce**: The nonce to use when using the decrypted group key to decrypt the item content.
 
 | HTTP | Explanation |
 | :---: | --- |
 | 200 | Ok |
 | 400 | The request is malformed. |
 | 401 | Authentication failed. |
-| 404 | Backup data not found. |
-| 429 | Too many requests; there have been too many requests of this type from the IP address and/or user. |
-
-
-Request Body:
-
-```
-{
-	"ir" : <the ID of the item to fetch>,
-	"guid" : "<the user's GUID>",
-	"sig" : "<MIME encoded byte array of the digital signature>"
-}
-```
-
-Response Body:
-
-```text
-No response body; the encrypted content is streamed back to the client.
-```
-
-| HTTP | Explanation |
-| :---: | --- |
-| 200 | Ok |
-| 400 | The request is malformed. |
-| 401 | Authentication failed; may indicate the the user does not exist or that the digital signature failed verification. |
+| 404 | Target item not found. |
 | 429 | Too many requests; there have been too many requests of this type from the IP address and/or user. |
 
 ### Fetch recipients for an item
@@ -660,24 +633,23 @@ Fetch the list of recipients for a given item. This may be useful if, for exampl
 
 **GET /api/v1/item/&lt;Item Remote Id&gt;/recipients**
 
-Request Body:
+Request Headers:
 
-```
-{
-	"ir" : <the ID of the item to fetch recipients for>,
-	"guid" : "<the user's GUID>",
-	"sig" : "<MIME encoded byte array of the digital signature>"
-}
-```
+- **Kakapo-ID**: The user's GUID, for authentication.
+- **Kakapo-API-Key**: the user's API Key, for authentication.
+
+Response Headers:
+
+- **Kakapo-Pre-Keys-Remaining**: The number of unused prekeys remaining on the server.
 
 Response Body:
 
 ```
 {
-	"r" : [
+	"recipients" : [
 		{
 			"guid" : "<recipient's GUID>",
-			"pkr" : "<MIME encoded GPG-compatible public key rings byte array>"
+			"signingPublicKey" : "<Hex string representation of the recipients signing public key>"
 		},
 		...
 	]
@@ -688,6 +660,6 @@ Response Body:
 | :---: | --- |
 | 200 | Ok |
 | 400 | The request is malformed. |
-| 401 | Authentication failed; may indicate the the user does not exist or that the digital signature failed verification. |
+| 401 | Authentication failed. |
 | 429 | Too many requests; there have been too many requests of this type from the IP address and/or user. |
 
