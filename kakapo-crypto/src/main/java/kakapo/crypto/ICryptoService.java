@@ -8,7 +8,7 @@ public interface ICryptoService {
 
     String hashApiKey(String apiKey) throws HashingException;
 
-    boolean verifyApiKey(String apiKey, String salt);
+    boolean verifyApiKey(String apiKeyHash, String apiKey);
 
     KeyPair generateSigningKeyPair() throws KeyGenerationException;
 
