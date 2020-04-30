@@ -6,6 +6,10 @@ import kakapo.crypto.exception.*;
 
 public interface ICryptoService {
 
+    String hashApiKey(String apiKey) throws HashingException;
+
+    boolean verifyApiKey(String apiKey, String salt);
+
     KeyPair generateSigningKeyPair() throws KeyGenerationException;
 
     KeyPair generateKeyExchangeKeypair();

@@ -21,6 +21,20 @@ public class LibSodiumCrypto implements ICryptoService {
     }
 
     @Override
+    public String hashApiKey(String apiKey) throws HashingException {
+        try {
+            return _lazySodium.cryptoPwHashStr(apiKey, PwHash.OPSLIMIT_INTERACTIVE, PwHash.MEMLIMIT_INTERACTIVE);
+        } catch (SodiumException e) {
+            throw new HashingException(e);
+        }
+    }
+
+    @Override
+    public boolean verifyApiKey(String apiKeyHash, String apiKey) {
+        return _lazySodium.cryptoPwHashStrVerify(apiKeyHash, apiKey);
+    }
+
+    @Override
     public KeyPair generateSigningKeyPair() throws KeyGenerationException {
         try {
             return _lazySodium.cryptoSignKeypair();
